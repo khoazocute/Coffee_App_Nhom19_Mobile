@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_pic"  tools:context=".LoginActivity">
+
+    <ImageView
+        android:id="@+id/image_view_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:contentDescription="Hình nền cà phê"
+        android:src="@drawable/splash_pic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
+        android:text="Choose Your\nFavorite Coffee"  android:gravity="center"
+        android:fontFamily="@font/dancingscriptregular"
+        android:textColor="@color/white"
+        android:textSize="37sp"  android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:layout_marginTop="30dp"
+        app:cardCornerRadius="10dp"
+        app:cardBackgroundColor="#00000000"  app:cardElevation="5dp"
+        app:layout_constraintTop_toBottomOf="@id/tv_title"  app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="Email:"
+                android:textStyle="bold"
+                android:padding="10dp"
+                android:textSize="17dp"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/editTextEmail"
+                android:layout_width="328dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:hint="user@example.com"
+                android:textColorHint="@color/white"
+                android:padding="10dp"
+                android:minHeight="48dp"  />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Password:"
+                android:padding="10dp"
+                android:textSize="17dp"
+                android:textStyle="bold"
+                android:textColor="@color/white" />
+
+            <EditText
+                android:id="@+id/editTextPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:hint="Enter password....."
+                android:textColorHint="@color/white"
+                android:padding="10dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginBottom="20dp"
+                android:text="FORGET PASSWORD"
+                android:autoSizeMaxTextSize="17dp"
+                android:textStyle="bold"
+                android:textColor="@color/white"
+                android:textSize="12sp" />
+
+            <Button
+                android:id="@+id/btn_login"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="10dp"
+                android:backgroundTint="@color/black"
+                android:text="LOGIN"
+                android:textColor="@color/white"
+                app:cornerRadius="5dp" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/btn_google"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:backgroundTint="@color/white"
+        android:paddingStart="20dp"
+        android:drawableStart="@drawable/logo_google"  android:drawablePadding="20dp"                android:text="LOGIN WITH GOOGLE"
+        android:textColor="@color/black"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/card_login"
+        app:layout_constraintStart_toStartOf="@id/card_login"
+        app:layout_constraintTop_toBottomOf="@id/card_login" />
+
+    <Button
+        android:id="@+id/btn_facebook"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+
+        android:backgroundTint="#1877F2"
+        android:paddingStart="20dp"
+        android:text="LOGIN WITH FACEBOOK"
+        android:textColor="@color/white"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/card_login"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/card_login"
+        app:layout_constraintTop_toBottomOf="@id/btn_google" />
+
+    <Button
+        android:id="@+id/btn_signup_bottom"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:backgroundTint="@color/black"
+        android:text="SIGN UP"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:cornerRadius="10dp"
+        app:layout_constraintEnd_toEndOf="@id/card_login"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/card_login"
+        app:layout_constraintTop_toBottomOf="@id/btn_facebook" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

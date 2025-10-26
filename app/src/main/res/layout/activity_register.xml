@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.androids.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_pic"
+    tools:context=".RegisterActivity">
+
+    <ImageView
+        android:id="@+id/image_view_id"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="Hình nền cà phê"
+        android:scaleType="centerCrop"
+        android:src="@drawable/splash_pic"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:fontFamily="@font/dancingscriptregular"
+        android:gravity="center"
+        android:text="Choose Your\nFavorite Coffee"
+        android:textColor="@color/white"
+        android:textSize="37sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/card_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="32dp"
+        app:cardBackgroundColor="#00000000"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_title">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:padding="4dp"
+                android:text="Name:"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" Nguyễn Văn A"
+                android:minHeight="48dp"
+                android:textColorHint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text="Phone Number:"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/phone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" +84...."
+                android:inputType="phone"
+                android:minHeight="48dp"
+                android:textColorHint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:padding="4dp"
+                android:text=" Email:"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/email"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" user@example.com"
+                android:inputType="textEmailAddress"
+                android:minHeight="48dp"
+                android:textColorHint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text=" Password:"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" Enter password....."
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textColorHint="@color/white" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="4dp"
+                android:text=" Confirm Password:"
+                android:textColor="@color/white"
+                android:textSize="17dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/confirm_password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
+                android:background="@drawable/edittext_background"
+                android:hint=" Enter password...."
+                android:inputType="textPassword"
+                android:minHeight="48dp"
+                android:textColorHint="@color/white" />
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <Button
+        android:id="@+id/sign_up"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/black"
+        android:text="SIGN UP"
+        android:textColor="@color/white"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/card_login" />
+
+    <TextView
+        android:id="@+id/tv_or"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:gravity="center"
+        android:padding="0dp"
+        android:text="------ OR ------"
+        android:textColor="@color/white"
+        android:textSize="17dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sign_up" />
+
+    <Button
+        android:id="@+id/btn_backtologin"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:backgroundTint="@color/black"
+        android:text="BACK TO LOGIN"
+        android:textColor="@color/white"
+        app:cornerRadius="5dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_or" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

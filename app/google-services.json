@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "988528543339",
+    "project_id": "authencationloginlogout",
+    "storage_bucket": "authencationloginlogout.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:988528543339:android:5304fa739568a39261532e",
+        "android_client_info": {
+          "package_name": "com.example.coffee_app_damh"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhAZE0Pa3xYTGFx0in4Av3RScLLw5y-qQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
