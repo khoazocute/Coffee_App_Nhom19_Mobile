@@ -9,4 +9,6 @@
     <color name="grey">#8D8D8D</color>
     <color name="darkBrown">#220C01</color>
     <color name="card_background_brown">#CC5C3F3B</color>
+    <color name="semi_transparent_black">#80000000</color>
+    <color name="semi_transparent_dark_reddish_brown">#AA332020</color>
 </resources>

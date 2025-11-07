@@ -13,7 +13,7 @@
         android:layout_height="match_parent"
         android:contentDescription="Hình nền cà phê"
         android:scaleType="centerCrop"
-        android:src="@drawable/splash_pic"
+        android:src="@drawable/splash_pic2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -23,14 +23,26 @@
         android:id="@+id/tv_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="72dp"
         android:fontFamily="@font/dancingscriptregular"
         android:gravity="center"
         android:text="Choose Your\nFavorite Coffee"
         android:textColor="@color/white"
-        android:textSize="37sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/logoImageView"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="16dp"
+        android:contentDescription="Logo quán cà phê"
+        android:src="@drawable/mainlogo"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -41,7 +53,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="30dp"
         android:layout_marginEnd="32dp"
-        app:cardBackgroundColor="#00000000"
+        app:cardBackgroundColor="@color/semi_transparent_dark_reddish_brown"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -70,8 +82,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/edittext_background"
-                android:hint=" Nguyễn Văn A"
+                android:hint="Nguyễn Văn A"
                 android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:textColorHint="@color/white" />
 
             <TextView
@@ -89,9 +103,11 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/edittext_background"
-                android:hint=" +84...."
+                android:hint="+84...."
                 android:inputType="phone"
                 android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:textColorHint="@color/white" />
 
             <TextView
@@ -99,7 +115,7 @@
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
                 android:padding="4dp"
-                android:text=" Email:"
+                android:text="Email:"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 android:textStyle="bold" />
@@ -113,13 +129,15 @@
                 android:hint=" user@example.com"
                 android:inputType="textEmailAddress"
                 android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:textColorHint="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
-                android:text=" Password:"
+                android:text="Password:"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 android:textStyle="bold" />
@@ -130,16 +148,18 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/edittext_background"
-                android:hint=" Enter password....."
+                android:hint="Enter password....."
                 android:inputType="textPassword"
                 android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:textColorHint="@color/white" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="4dp"
-                android:text=" Confirm Password:"
+                android:text="Confirm Password:"
                 android:textColor="@color/white"
                 android:textSize="17dp"
                 android:textStyle="bold" />
@@ -153,6 +173,8 @@
                 android:hint=" Enter password...."
                 android:inputType="textPassword"
                 android:minHeight="48dp"
+                android:paddingStart="12dp"
+                android:paddingEnd="12dp"
                 android:textColorHint="@color/white" />
 
         </LinearLayout>
@@ -163,12 +185,13 @@
         android:id="@+id/sign_up"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="4dp"
         android:backgroundTint="@color/black"
         android:text="SIGN UP"
         android:textColor="@color/white"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/card_login" />
 
@@ -179,7 +202,7 @@
         android:layout_marginTop="8dp"
         android:gravity="center"
         android:padding="0dp"
-        android:text="------ OR ------"
+        android:text="---------- OR ---------- "
         android:textColor="@color/white"
         android:textSize="17dp"
         android:textStyle="bold"
@@ -197,6 +220,7 @@
         android:textColor="@color/white"
         app:cornerRadius="5dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_or" />
 
