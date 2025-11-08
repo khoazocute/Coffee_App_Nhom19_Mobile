@@ -106,14 +106,15 @@
                 android:textColorHint="@color/white" />
 
             <TextView
+                android:id="@+id/tvForgotPassword"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="end"
                 android:layout_marginBottom="20dp"
                 android:autoSizeMaxTextSize="17dp"
-                android:text="FORGET PASSWORD"
+                android:text="FORGET PASSWORD?"
                 android:textColor="@color/white"
-                android:textSize="12sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
 
             <Button

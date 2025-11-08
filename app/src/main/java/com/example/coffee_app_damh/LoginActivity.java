@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -21,6 +22,8 @@ public class LoginActivity extends AppCompatActivity {
     //Khai báo các biến EditText và Button
     private EditText email, password;
     private Button btnlogin,btnregister;
+
+   private TextView TvForgotPassword;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,6 +36,7 @@ public class LoginActivity extends AppCompatActivity {
         password=findViewById(R.id.editTextPassword);
         btnlogin=findViewById(R.id.btn_login);
         btnregister=findViewById(R.id.btn_signup_bottom);
+        TvForgotPassword=findViewById(R.id.tvForgotPassword);
 
         //Lắng nghe sự kiện nhấn nút login
         btnlogin.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +52,18 @@ public class LoginActivity extends AppCompatActivity {
                 register();
             }
         });
+
+        TextView tvForgotPassword = findViewById(R.id.tvForgotPassword);
+        TvForgotPassword.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ForgotPasswordActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
+
 
     private void register() {
         //Khi nhấn vào register sẽ chuyển sang giao diện đăng ký
