@@ -6,4 +6,8 @@
     </style>
 
     <style name="Theme.Coffee_App_DAMH" parent="Base.Theme.Coffee_App_DAMH" />
+    <style name="CircleImageView">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">17dp</item>
+    </style>
 </resources>
