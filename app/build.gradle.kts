@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.google.gms.google.services)
+    alias(libs.plugins.kotlin.android)
 }
 
 android {
@@ -26,9 +27,16 @@ android {
             )
         }
     }
+    buildFeatures {
+        viewBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
+    }
+    kotlinOptions {
+        jvmTarget = "11"
     }
 }
 
@@ -45,7 +53,9 @@ dependencies {
     implementation(libs.cardview)
     implementation(libs.firebase.database)
     implementation(libs.recyclerview)
+    implementation(libs.core.ktx)
     testImplementation(libs.junit)
+    implementation("com.github.bumptech.glide:glide:4.16.0")
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.cardview:cardview:X.Y.Z")

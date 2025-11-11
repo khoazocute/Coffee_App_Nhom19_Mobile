@@ -75,7 +75,7 @@
 
             <EditText
                 android:id="@+id/editTextEmail"
-                android:layout_width="328dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="15dp"
                 android:background="@drawable/edittext_background"
