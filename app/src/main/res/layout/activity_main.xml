@@ -16,7 +16,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:paddingBottom="80dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -84,8 +85,8 @@
                 android:id="@+id/textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginHorizontal="16dp"
                 android:layout_margin="10dp"
+                android:layout_marginHorizontal="16dp"
                 android:text="@string/Category"
                 android:textColor="@color/black"
                 android:textSize="20sp"
@@ -167,7 +168,7 @@
                     android:id="@+id/recyclerViewPopular"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="4dp"
                     android:clipToPadding="false"
                     android:minHeight="150dp"
                     android:paddingStart="8dp"
