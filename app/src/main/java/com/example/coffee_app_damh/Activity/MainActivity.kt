@@ -14,9 +14,12 @@ import com.example.coffee_app_damh.ViewModel.MainViewModel
 import com.example.coffee_app_damh.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    // ViewBinding giúp truy cập trực tiếp các View trong XML
+    // mà không cần findViewById()
     lateinit var binding: ActivityMainBinding //binding là biến dùng để truy cập giao diện và MainBinding tự động sinh ra
     //Lúc này binding “gắn” file XML vào Activity, và bạn có thể gọi trực tiếp mọi View trong XML mà không cần findViewById() nữa.
     private val viewModel= MainViewModel()
+    // Khởi tạo ViewModel để lấy dữ liệu Banner, Category, Popular
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
