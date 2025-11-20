@@ -35,8 +35,10 @@ class PopularAdapter(val items: MutableList<ItemsModel>):
         Glide.with(context)
             .load(items[position].picUrl[0])
             .into(holder.binding.pic)
-
+//"Khi người dùng chạm vào bất cứ đâu trên toàn bộ mục này, hãy thực hiện hành động chuyển Activity."
+//itemView là thuộc tính tự có trong RecycleView
         holder.itemView.setOnClickListener {
+
             val intent= Intent(context, DetailActivity::class.java)
             intent.putExtra("object",items[position])
             context.startActivity(intent)
