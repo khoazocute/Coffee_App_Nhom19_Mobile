@@ -23,44 +23,77 @@ class MainActivity : AppCompatActivity() {
         this.enableEdgeToEdge()
         binding= ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        //gọi các hàm khởi tạo dữ liệu giao diện
         initBanner()
         initCategory()
         initPopular()
     }
 
+    // ------------------------- BANNER -----------------------------
     private fun initBanner() {
-        binding.progressBarBanner.visibility= View.VISIBLE
-        viewModel.loadBanner().observeForever {
+        // Hiện progress trong lúc chờ load dữ liệu
+        binding.progressBarBanner.visibility = View.VISIBLE
+
+        // Quan sát LiveData từ ViewModel
+        viewModel.loadBanner().observeForever { list ->
+            // Load ảnh banner đầu tiên bằng Glide
             Glide.with(this@MainActivity)
-                .load(it[0].url)
+                .load(list[0].url)
                 .into(binding.banner)
-            binding.progressBarBanner.visibility= View.GONE
+
+            // Tắt progress khi dữ liệu đã trả về
+            binding.progressBarBanner.visibility = View.GONE
         }
+
+        // Gửi yêu cầu load banner từ Firebase
         viewModel.loadBanner()
     }
 
-    private fun initCategory(){
-        binding.progressCategory.visibility= View.VISIBLE
-        viewModel.loadCategory().observeForever {
+    // ---------------------- CATEGORY ------------------------------
+    private fun initCategory() {
+        binding.progressCategory.visibility = View.VISIBLE
+
+        // Quan sát dữ liệu category từ ViewModel
+        viewModel.loadCategory().observeForever { list ->
+
+            // Hiển thị Category theo dạng danh sách ngang
             binding.recyclerViewCat.layoutManager =
                 LinearLayoutManager(
-                    this@MainActivity, LinearLayoutManager.HORIZONTAL,
-                    false)
+                    this@MainActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
 
-            binding.recyclerViewCat.adapter= CategoryAdapter(it)
-            binding.progressCategory.visibility= View.GONE
+            // Gán Adapter để hiển thị danh sách Category
+            binding.recyclerViewCat.adapter = CategoryAdapter(list)
+
+            // Ẩn progress bar
+            binding.progressCategory.visibility = View.GONE
         }
+
+        // Bắt đầu tải dữ liệu Category từ Firebase
         viewModel.loadCategory()
     }
 
-    private fun initPopular(){
-        binding.progressBarPupolar.visibility= View.VISIBLE
-        viewModel.loadPopular().observeForever {
-            binding.recyclerViewPopular.layoutManager= GridLayoutManager(
-                this,2)
-            binding.recyclerViewPopular.adapter= PopularAdapter(it)
-            binding.progressBarPupolar.visibility=View.GONE
+    // ---------------------- POPULAR ITEMS --------------------------
+    private fun initPopular() {
+        binding.progressBarPupolar.visibility = View.VISIBLE
+
+        // Quan sát danh sách popular từ ViewModel
+        viewModel.loadPopular().observeForever { list ->
+
+            // Hiển thị dạng lưới 2 cột
+            binding.recyclerViewPopular.layoutManager =
+                GridLayoutManager(this, 2)
+
+            // Set Adapter hiển thị danh sách món phổ biến
+            binding.recyclerViewPopular.adapter = PopularAdapter(list)
+
+            // Ẩn progress bar khi load xong
+            binding.progressBarPupolar.visibility = View.GONE
         }
+
+        // Gọi load dữ liệu từ Firebase
         viewModel.loadPopular()
     }
 }
