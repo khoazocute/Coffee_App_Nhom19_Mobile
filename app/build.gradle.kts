@@ -59,5 +59,6 @@ dependencies {
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.cardview:cardview:X.Y.Z")
+    implementation("com.google.code.gson:gson:2.10.1")
 
 }
