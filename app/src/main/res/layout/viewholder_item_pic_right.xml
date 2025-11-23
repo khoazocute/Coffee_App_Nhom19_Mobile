@@ -20,9 +20,10 @@
     </FrameLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/picMain"
         android:layout_width="145dp"
         android:layout_height="95dp"
+        android:scaleType="centerCrop"
         android:layout_marginEnd="16dp"
         app:shapeAppearanceOverlay="@style/CircleImageView"
         app:layout_constraintEnd_toEndOf="parent"
