@@ -27,7 +27,7 @@
                 android:orientation="horizontal">
 
                 <EditText
-                    android:id="@+id/editTextText"
+                    android:id="@+id/searchEdt"
                     android:layout_width="wrap_content"
                     android:layout_height="50dp"
                     android:layout_weight="1"
@@ -39,7 +39,8 @@
                     android:inputType="text"
                     android:padding="10dp"
                     android:textColor="@color/darkBrown"
-                    android:textColorHint="@color/darkBrown" />
+                    android:textColorHint="@color/darkBrown"
+                    android:imeOptions="actionSearch" />
 
                 <ImageView
                     android:id="@+id/imageView"
