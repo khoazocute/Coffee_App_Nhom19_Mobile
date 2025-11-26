@@ -109,6 +109,29 @@ class MainRepository {
     })
     return itemsLiveData
     }
+
+    // Thêm hàm này vào cuối lớp MainRepository
+    fun loadAllItems(): LiveData<MutableList<ItemsModel>> {
+        val itemsLiveData = MutableLiveData<MutableList<ItemsModel>>()
+        // Trỏ đến node "Items" để lấy tất cả sản phẩm
+        val ref = firebaseDatabase.getReference("Items")
+
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val list = mutableListOf<ItemsModel>()
+                for (childSnapshot in snapshot.children) {
+                    val item = childSnapshot.getValue(ItemsModel::class.java)
+                    item?.let { list.add(it) }
+                }
+                itemsLiveData.value = list
+            }
+            override fun onCancelled(error: DatabaseError) {
+                // Bạn có thể xử lý lỗi ở đây
+            }
+        })
+        return itemsLiveData
+    }
+
 // Repository  trả LiveDate cho ViewModel => ViewModel trả cho Activity => Observe và hiển thị
 }
                                                 /*

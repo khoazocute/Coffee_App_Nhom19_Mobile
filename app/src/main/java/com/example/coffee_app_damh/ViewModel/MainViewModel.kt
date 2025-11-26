@@ -27,6 +27,10 @@ class MainViewModel: ViewModel() {
         return repository.loadItemCategory(categoryId) // Gọi hàm và chuyển tiếp yêu cầu xuống Repository
     //ViewModel sẽ nhận LiveData từ Repository va tra nó về Activity
     }
+
+    // Thêm hàm này vào cuối lớp MainViewModel
+    fun loadAllItems(): LiveData<MutableList<ItemsModel>> {
+        return repository.loadAllItems()}
 }
                 /*
                 Activity
