@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.PopupWindow
+import android.widget.Toast
 
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.GridLayoutManager
@@ -23,9 +24,11 @@ import com.example.coffee_app_damh.Adapter.CategoryAdapter
 import com.example.coffee_app_damh.Adapter.PopularAdapter
 import com.example.coffee_app_damh.Adapter.SearchAdapter
 import com.example.coffee_app_damh.Domain.ItemsModel
+import com.example.coffee_app_damh.LoginActivity
 import com.example.coffee_app_damh.ViewModel.MainViewModel
 import com.example.coffee_app_damh.databinding.ActivityMainBinding
 import com.example.coffee_app_damh.databinding.PopupSearchResultBinding
+import com.google.firebase.auth.FirebaseAuth
 import java.util.Locale
 
 
@@ -47,17 +50,21 @@ class MainActivity : AppCompatActivity() {
         initCategory()
         initPopular()
         initCartMenu()
-        initSearchFunction()
+        initProfileButton()
         //Khởi chạy chức năng tìm kiếm
         preloadAllProductsForSearch()
         setupSearchListener()
     }
+
+    private fun initProfileButton() {
+        binding.profileBtn.setOnClickListener {
+            // TẠM THỜI: luôn mở ProfileActivity để test
+            startActivity(Intent(this, ProfileActivity::class.java))
+        }
+    }
+
     // --- CÁC HÀM CHO CHỨC NĂNG TÌM KIẾM ---
 
-    private fun initSearchFunction() {
-        preloadAllProductsForSearch()
-        setupSearchListener()
-    }
 
     // --- CÁC THUỘC TÍNH MỚI CHO CHỨC NĂNG TÌM KIẾM ---
     private var allProducts: List<ItemsModel> = listOf() // Danh sách chứa tất cả sản phẩm

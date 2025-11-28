@@ -20,6 +20,9 @@
         <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />
+
+        <activity android:name=".Activity.ProfileActivity"
+            android:exported="false" />
         <activity android:name=".Activity.MainActivity" />
         <activity android:name=".RegisterActivity" />
         <activity android:name=".ForgotPasswordActivity" />
