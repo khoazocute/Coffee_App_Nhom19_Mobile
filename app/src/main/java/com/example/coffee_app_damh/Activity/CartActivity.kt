@@ -1,6 +1,8 @@
 package com.example.coffee_app_damh.Activity
 
+import android.content.Intent
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,8 +26,37 @@ class CartActivity : AppCompatActivity() {
         calculateCart()
         bundle()
         initCartList()
+        initListeners()
 
+    }
 
+    private fun initListeners() {
+        binding.checkoutBtn.setOnClickListener {
+            // Chỉ cần lấy các giá trị đã được tính toán trong calculateCart()
+            val subTotal = managmentCart.getTotalFee()
+
+            // Lấy các giá trị đã được tính toán và làm tròn trong calculateCart()
+            // Đảm bảo logic tính toán này khớp với logic tính tiền trong CheckoutActivity.kt
+            val taxValue = binding.taxTxt.text.toString().replace("$", "").toDoubleOrNull() ?: 0.0
+            val deliveryValue = binding.deliveryTxt.text.toString().replace("$", "").toDoubleOrNull() ?: 0.0
+            val totalValue = binding.totalTxt.text.toString().replace("$", "").toDoubleOrNull() ?: 0.0
+
+            if (totalValue > 0.0) {
+                // Tạo một "tấm vé" (Intent) để đi đến màn hình CheckoutActivity
+                val intent = Intent(this, CheckoutActivity::class.java)
+
+                // Ghi các thông tin tiền nong lên "tấm vé"
+                intent.putExtra("subTotal", subTotal)
+                intent.putExtra("tax", taxValue) // Gửi giá trị đã tính
+                intent.putExtra("delivery", deliveryValue) // Gửi giá trị đã tính
+                intent.putExtra("total", totalValue) // Gửi giá trị đã tính
+
+                // Bắt đầu hành trình, chuyển màn hình
+                startActivity(intent)
+            } else {
+                Toast.makeText(this, "Giỏ hàng trống vui lòng thêm đơn vào giỏ hàng", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 
     private fun initCartList() {

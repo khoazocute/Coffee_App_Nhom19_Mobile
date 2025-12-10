@@ -55,9 +55,10 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <!-- 2. NỘI DUNG CHÍNH -->
-    <ScrollView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:fillViewport="true"
         app:layout_constraintBottom_toTopOf="@id/bottomLayout"
         app:layout_constraintTop_toBottomOf="@id/headerLayout">
 
@@ -67,7 +68,6 @@
             android:orientation="vertical"
             android:padding="24dp">
 
-            <!-- Thông tin giao hàng -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -114,7 +114,6 @@
                 android:textColorHint="#9E9E9E"
                 android:textSize="16sp" />
 
-            <!-- Phương thức thanh toán -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -146,7 +145,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:enabled="false"
+                    android:enabled="true"
                     android:paddingStart="8dp"
                     android:text="Thẻ Tín dụng / Ghi nợ (Chưa hỗ trợ)"
                     android:textColor="@color/darkBrown"
@@ -154,11 +153,10 @@
                     tools:ignore="RtlSymmetry" />
             </RadioGroup>
 
-            <!-- TÓM TẮT ĐƠN HÀNG (MỚI) -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tóm tắt đơn hàng"
+                android:text=" Order Summary"
                 android:textColor="@color/darkBrown"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -168,13 +166,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:background="@drawable/white_bg"
                 android:nestedScrollingEnabled="false"
+                android:background="@drawable/white_bg"
                 android:padding="16dp" />
-            <!-- End Tóm tắt đơn hàng -->
-
         </LinearLayout>
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
     <!-- 3. TÓM TẮT TỔNG TIỀN VÀ NÚT ĐẶT HÀNG -->
     <LinearLayout
@@ -196,7 +192,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tổng tiền hàng:"
+                android:text="Subtotal:"
                 android:textColor="@color/darkBrown"
                 android:textSize="16sp" />
 
@@ -219,7 +215,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Phí giao hàng:"
+                android:text="Delivery:"
                 android:textColor="@color/darkBrown"
                 android:textSize="16sp" />
 
@@ -242,7 +238,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Phí dịch vụ (Thuế):"
+                android:text="Total tax:"
                 android:textColor="@color/darkBrown"
                 android:textSize="16sp" />
 
@@ -270,7 +266,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Tổng cộng:"
+                android:text="Total"
                 android:textColor="@color/darkBrown"
                 android:textSize="18sp"
                 android:textStyle="bold" />
@@ -291,7 +287,7 @@
             android:layout_height="55dp"
             android:layout_marginTop="16dp"
             android:background="@drawable/brown_full_corner_bg"
-            android:text="Xác nhận Đặt hàng"
+            android:text="Order Confirmation"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="18sp"
