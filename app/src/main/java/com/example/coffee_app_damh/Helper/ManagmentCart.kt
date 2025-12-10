@@ -2,9 +2,9 @@ package com.example.project1762.Helper
 
 import android.content.Context
 import android.widget.Toast
-import com.uilover.project195.Helper.ChangeNumberItemsListener
-import com.example.coffee_app_damh.Helper.TinyDB
 import com.example.coffee_app_damh.Domain.ItemsModel
+import com.example.coffee_app_damh.Helper.TinyDB
+import com.uilover.project195.Helper.ChangeNumberItemsListener
 
 
 class ManagmentCart(val context: Context) {
@@ -61,5 +61,12 @@ class ManagmentCart(val context: Context) {
             fee += item.price * item.numberInCart
         }
         return fee
+    }
+
+    // Thêm hàm này vào trong lớp ManagmentCart.java
+    fun clearCart() {
+        val list: ArrayList<ItemsModel?> = getListCart() as ArrayList<ItemsModel?>
+        list.clear()
+        tinyDB.putListObject("CartList", list)
     }
 }
