@@ -121,6 +121,7 @@ class CheckoutActivity : AppCompatActivity() {
             orderItems.add(
                 OrderItemModel(
                     itemId = cartItem.id,
+                    title = cartItem.title,
                     quantity = cartItem.numberInCart,
                     priceAtOrder = cartItem.price
                 )

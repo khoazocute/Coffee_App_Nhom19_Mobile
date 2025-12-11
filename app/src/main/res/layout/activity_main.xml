@@ -277,6 +277,7 @@
                     android:orientation="vertical">
 
                     <ImageView
+                        android:id="@+id/historyBtn"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
                         android:layout_gravity="center"

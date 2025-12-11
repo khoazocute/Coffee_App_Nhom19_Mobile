@@ -6,7 +6,8 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class OrderItemModel(
-    var itemId: String = "",        // Chỉ lưu ID của sản phẩm
+    var itemId: String = "",
+    var title: String = "",// Chỉ lưu ID của sản phẩm
     var quantity: Int = 0,          // Số lượng
     var priceAtOrder: Double = 0.0  // Lưu lại giá tại thời điểm đặt hàng (Rất quan trọng!)
 ) : Parcelable
