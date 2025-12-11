@@ -51,9 +51,16 @@ class MainActivity : AppCompatActivity() {
         initPopular()
         initCartMenu()
         initProfileButton()
+        initHistoryButton()
         //Khởi chạy chức năng tìm kiếm
         preloadAllProductsForSearch()
         setupSearchListener()
+    }
+
+    private fun initHistoryButton() {
+        binding.historyBtn.setOnClickListener {
+            startActivity(Intent(this, OrderHistoryActivity::class.java))
+        }
     }
 
     private fun initProfileButton() {
@@ -154,6 +161,8 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, CartActivity::class.java))
         }
     }
+
+
 
     // ------------------------- BANNER -----------------------------
     private fun initBanner() {
