@@ -14,10 +14,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.coffee_app_damh.Activity.MainActivity;
+import com.example.coffee_app_damh.Activity.ProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class LoginActivity extends AppCompatActivity {
     //Khai báo các biến EditText và Button
@@ -73,27 +77,67 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void login() {
-        String mail,pass;
-        mail=email.getText().toString();
-        pass=password.getText().toString();
+        String mail, pass;
+        mail = email.getText().toString();
+        pass = password.getText().toString();
 
-        if(TextUtils.isEmpty(mail)){
+        if (TextUtils.isEmpty(mail)) {
             Toast.makeText(this, "Vui lòng nhập Email.", Toast.LENGTH_SHORT).show();
             return;
         }
-        if(TextUtils.isEmpty(mail)){
-            Toast.makeText(this, "Vui lòng nhập Email.", Toast.LENGTH_SHORT).show();
+        if (TextUtils.isEmpty(pass)) {
+            Toast.makeText(this, "Vui lòng nhập Mật khẩu.", Toast.LENGTH_SHORT).show();
             return;
         }
-        mAuth.signInWithEmailAndPassword(mail,pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+
+        mAuth.signInWithEmailAndPassword(mail, pass).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                    if (task.isSuccessful()) {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
-                        Intent i = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(i);
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
+                if (task.isSuccessful()) {
+                    // Đăng nhập Auth thành công, lấy UserId (uid)
+                    String userId = mAuth.getCurrentUser().getUid();
+
+                    // === KIỂM TRA VAI TRÒ BẮT ĐẦU TỪ ĐÂY ===
+                    // Truy vấn vào Realtime Database để lấy vai trò
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("users").child(userId);
+                    userRef.child("role").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DataSnapshot> roleTask) {
+
+                            if (roleTask.isSuccessful() && roleTask.getResult().exists()) {
+                                String userRole = roleTask.getResult().getValue(String.class);
+
+                                // Điều hướng dựa trên vai trò
+                                if ("admin".equals(userRole)) {
+                                    // 1. Nếu là ADMIN, chuyển đến trang Admin Dashboard
+                                    // (Bạn sẽ tạo Activity này ở bước sau để quản lý sản phẩm/đơn hàng)
+                                    // Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
+                                    Toast.makeText(LoginActivity.this, "Đăng nhập với quyền Admin!", Toast.LENGTH_SHORT).show();
+                                    // Tạm thời, để kiểm tra, ta có thể cho admin vào MainActivity
+                                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+
+                                } else {
+                                    // 2. Nếu là USER (hoặc khác admin), chuyển đến trang chính
+                                    Toast.makeText(LoginActivity.this, "Đăng nhập thành công.", Toast.LENGTH_SHORT).show();
+                                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                    startActivity(intent);
+                                }
+                            } else {
+                                // 3. Nếu không lấy được role (tài khoản cũ), cứ cho vào trang user
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
+                            }
+                            finish(); // Đóng màn hình Login sau khi điều hướng
+                        }
+                    });
+                    // === KẾT THÚC KIỂM TRA VAI TRÒ ===
+
+                } else {
+                    Toast.makeText(LoginActivity.this, "Đăng nhập thất bại.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
