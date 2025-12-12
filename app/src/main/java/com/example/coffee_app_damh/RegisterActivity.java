@@ -125,7 +125,7 @@ public class RegisterActivity extends AppCompatActivity {
                                 userMap.put("name", userName);
                                 userMap.put("phone", phoneNumber);
                                 userMap.put("email", userEmail);
-
+                                userMap.put("role", "user");
                                 ref.setValue(userMap).addOnCompleteListener(taskDb -> {
                                     if (taskDb.isSuccessful()) {
                                         Toast.makeText(RegisterActivity.this,

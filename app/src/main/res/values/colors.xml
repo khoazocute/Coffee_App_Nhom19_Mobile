@@ -11,4 +11,7 @@
     <color name="card_background_brown">#CC5C3F3B</color>
     <color name="semi_transparent_black">#80000000</color>
     <color name="semi_transparent_dark_reddish_brown">#AA332020</color>
+    <color name="lightOrange">#FFF3E0</color>
+    <color name="darkBrown2">#6D4C41</color>
+    <color name="darkBrown3">#8D6E63</color>
 </resources>
