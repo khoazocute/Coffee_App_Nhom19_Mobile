@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.coffee_app_damh.Activity.AdminDashboardActivity;
 import com.example.coffee_app_damh.Activity.MainActivity;
 import com.example.coffee_app_damh.Activity.ProfileActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -114,7 +115,7 @@ public class LoginActivity extends AppCompatActivity {
                                     // Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                                     Toast.makeText(LoginActivity.this, "Đăng nhập với quyền Admin!", Toast.LENGTH_SHORT).show();
                                     // Tạm thời, để kiểm tra, ta có thể cho admin vào MainActivity
-                                    Intent intent = new Intent(LoginActivity.this, ProfileActivity.class);
+                                    Intent intent = new Intent(LoginActivity.this, AdminDashboardActivity.class);
                                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                                     startActivity(intent);
 

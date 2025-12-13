@@ -14,4 +14,5 @@
     <color name="lightOrange">#FFF3E0</color>
     <color name="darkBrown2">#6D4C41</color>
     <color name="darkBrown3">#8D6E63</color>
+    <color name="grey_dark">#333333</color>
 </resources>
