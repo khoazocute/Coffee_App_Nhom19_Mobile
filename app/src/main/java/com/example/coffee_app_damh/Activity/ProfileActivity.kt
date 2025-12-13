@@ -114,7 +114,7 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun initListeners() {
         // Nút back trên thanh tiêu đề
-        binding.backBtn.setOnClickListener {
+        binding.backText.setOnClickListener {
             finish()
         }
 

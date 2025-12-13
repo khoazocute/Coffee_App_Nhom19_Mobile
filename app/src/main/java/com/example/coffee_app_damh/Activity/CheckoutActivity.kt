@@ -149,11 +149,27 @@ class CheckoutActivity : AppCompatActivity() {
 
         orderRef.child(orderId).setValue(order).addOnSuccessListener {
             managmentCart.clearCart()
-            Toast.makeText(this, "Đặt hàng thành công!", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, MainActivity::class.java)
+            // 2. Tạo một "tấm vé" (Intent) để đi đến màn hình popup
+            val intent = Intent(this, OrderSuccessActivity::class.java)
+
+            // 3. Đóng gói tất cả thông tin vào "tấm vé"
+            intent.putExtra("orderId", order.orderId)
+            intent.putExtra("orderDate", order.orderDate)
+            intent.putExtra("name", order.name)
+            intent.putExtra("address", order.address)
+            intent.putExtra("total", order.total)
+
+            // === GỬI THÊM DANH SÁCH SẢN PHẨM VÀO ĐÂY ===
+            intent.putExtra("items", cartItems) // cartItems là ArrayList<ItemsModel> đã có sẵn
+            // ============================================
+
+            // 4. Xóa hết các màn hình cũ (Cart, Checkout) để người dùng không thể "Back" lại
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+
+            // 5. Bắt đầu hành trình, chuyển đến màn hình popup
             startActivity(intent)
-            finish()
+            finish() // Đóng màn hình Checkout lại
+
         }.addOnFailureListener {
             Toast.makeText(this, "Đặt hàng thất bại: ${it.message}", Toast.LENGTH_SHORT).show()
             binding.orderBtn.isEnabled = true
