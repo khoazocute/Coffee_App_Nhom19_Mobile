@@ -21,6 +21,10 @@
             android:name=".Activity.ItemsListActivity"
             android:exported="false" />
         <activity
+            android:name=".Activity.OrderSuccessActivity"
+            android:exported="false" />
+
+        <activity
             android:name=".Activity.DetailActivity"
             android:exported="false" />
         <activity
