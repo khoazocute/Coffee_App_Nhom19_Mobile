@@ -143,17 +143,40 @@
                     </LinearLayout>
 
                     <!-- D. Nút bấm -->
-                    <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/backToHomeBtn"
+                    <!-- === THAY ĐỔI TẠI ĐÂY: Thêm 2 nút bấm === -->
+                    <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="55dp"
+                        android:layout_height="wrap_content"
                         android:layout_marginTop="24dp"
-                        android:background="@drawable/brown_full_corner_bg"
-                        android:text="Về Trang Chủ"
-                        android:textAllCaps="false"
-                        android:textColor="@color/white"
-                        android:textSize="18sp"
-                        android:textStyle="bold" />
+                        android:orientation="horizontal">
+
+                        <!-- Nút Tải PDF -->
+                        <com.google.android.material.button.MaterialButton
+                            android:id="@+id/downloadPdfBtn"
+                            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_weight="1"
+                            android:text="Tải PDF"
+                            android:textAllCaps="false"
+                            android:textColor="@color/orange"
+                            app:cornerRadius="28dp"
+                            app:strokeColor="@color/orange" />
+
+                        <!-- Nút Về Trang Chủ -->
+                        <androidx.appcompat.widget.AppCompatButton
+                            android:id="@+id/backToHomeBtn"
+                            android:layout_width="0dp"
+                            android:layout_height="55dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:background="@drawable/brown_full_corner_bg"
+                            android:text="Về Trang Chủ"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white"
+                            android:textStyle="bold" />
+                    </LinearLayout>
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>
