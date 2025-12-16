@@ -73,9 +73,9 @@ class AdminDashboardActivity : AppCompatActivity() {
         // Truy cập CardView qua binding và thiết lập Listener
 
         binding.manageProductsCard.setOnClickListener {
-            Toast.makeText(this, "Chức năng Quản lý Sản phẩm sắp ra mắt!", Toast.LENGTH_SHORT).show()
-            // val intent = Intent(this, ManageProductsActivity::class.java)
-            // startActivity(intent)
+            //Toast.makeText(this, "Chức năng Quản lý Sản phẩm sắp ra mắt!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, ManageProductsActivity::class.java)
+            startActivity(intent)
         }
 
         binding.manageOrdersCard.setOnClickListener {
