@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/splash_pic1"
+    tools:context=".Activity.AdminDashboardActivity">
+
+    <View
+        android:id="@+id/viewHeaderBackground"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/header_background_shape"
+        android:backgroundTint="@color/darkBrown3"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/brandLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="32dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageView
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:src="@drawable/logo5"
+            app:tint="#CCFFFFFF" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:letterSpacing="0.1"
+            android:text="KODA COFFEE"
+            android:textColor="#CCFFFFFF"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/avatarContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="24dp"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/viewHeaderBackground"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/brandLayout"
+        app:layout_constraintVertical_bias="0.3">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/avatarCard"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            app:cardCornerRadius="35dp"
+            app:cardElevation="6dp"
+            android:layout_marginEnd="-10dp" >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="113dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/gemini" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/avatarCard2"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_marginStart="16dp"
+            app:cardCornerRadius="35dp"
+            app:cardElevation="6dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="104dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/anhthe2" />
+        </androidx.cardview.widget.CardView>
+    </LinearLayout>
+    <TextView
+        android:id="@+id/welcomeLabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Xin chào,"
+        android:textColor="#E0E0E0"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/brandLayout"
+        app:layout_constraintTop_toTopOf="@+id/avatarContainer" /> <TextView
+    android:id="@+id/adminName"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:layout_marginEnd="16dp"
+    android:text="Tổng Giám Đốc"
+    android:textColor="@android:color/white"
+    android:textSize="22sp"
+    android:textStyle="bold"
+    app:layout_constraintEnd_toStartOf="@+id/avatarContainer" app:layout_constraintStart_toStartOf="@+id/welcomeLabel"
+    app:layout_constraintTop_toBottomOf="@+id/welcomeLabel" />
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="6dp"
+        android:gravity="center_vertical"
+        app:layout_constraintEnd_toStartOf="@+id/avatarContainer" app:layout_constraintStart_toStartOf="@+id/adminName"
+        app:layout_constraintTop_toBottomOf="@+id/adminName">
+
+        <ImageView
+            android:layout_width="14dp"
+            android:layout_height="14dp"
+            android:src="@drawable/icon_star"
+            app:tint="#FFB74D" />
+        <TextView
+            android:id="@+id/sloganTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="4dp"
+            android:text="Admin Dashboard"
+            android:textColor="#FFB74D"
+            android:textSize="13sp"
+            android:textStyle="italic" />
+
+    </LinearLayout>
+
+    <GridLayout
+        android:id="@+id/gridLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:columnOrderPreserved="false"
+        android:rowCount="2"
+        app:layout_constraintBottom_toTopOf="@+id/logoutBtn"
+        app:layout_constraintTop_toBottomOf="@+id/viewHeaderBackground"
+        app:layout_constraintVertical_bias="0.2"
+        tools:layout_editor_absoluteX="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageProductsCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/cream"
+            app:cardElevation="6dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <FrameLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_bg_orange_light">
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/coffee_pack" />
+                </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Sản phẩm"
+                    android:textColor="@color/darkBrown"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Thêm, sửa, xóa"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageOrdersCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/cream"
+            app:cardElevation="6dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <FrameLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_bg_orange_light">
+                    <ImageView
+                        android:layout_width="84dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/checklist" />
+                </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Đơn hàng"
+                    android:textColor="@color/darkBrown"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Duyệt đơn mới"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageUsersCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/cream"
+            app:cardElevation="6dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <FrameLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_bg_orange_light">
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/customer_experience"
+                        app:tint="@color/orange" />
+                </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Người dùng"
+                    android:textColor="@color/darkBrown"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Quản lý khách"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/manageStatsCard"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:foreground="?android:attr/selectableItemBackground"
+            app:cardCornerRadius="20dp"
+            app:cardBackgroundColor="@color/cream"
+            app:cardElevation="6dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="24dp">
+                <FrameLayout
+                    android:layout_width="70dp"
+                    android:layout_height="70dp"
+                    android:background="@drawable/circle_bg_orange_light">
+                    <ImageView
+                        android:layout_width="70dp"
+                        android:layout_height="70dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/statisctics"
+                        app:tint="@color/orange" />
+                </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:text="Báo cáo"
+                    android:textColor="@color/darkBrown"
+                    android:textSize="16sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Doanh thu"
+                    android:textColor="#888888"
+                    android:textSize="12sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </GridLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/logoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginHorizontal="32dp"
+        android:layout_marginBottom="104dp"
+        android:text="Đăng xuất"
+        android:textColor="@color/orange"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:backgroundTint="@android:color/white"
+        app:cornerRadius="30dp"
+        app:iconGravity="textStart"
+        app:iconTint="@color/orange"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:strokeColor="@color/orange"
+        app:strokeWidth="2dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

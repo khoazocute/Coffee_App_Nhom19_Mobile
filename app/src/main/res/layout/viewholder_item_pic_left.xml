@@ -20,9 +20,10 @@
     </FrameLayout>
 
     <com.google.android.material.imageview.ShapeableImageView
-        android:id="@+id/imageView2"
+        android:id="@+id/picMain"
         android:layout_width="145dp"
         android:layout_height="95dp"
+        android:scaleType="centerCrop"
         android:layout_marginStart="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,7 +40,7 @@
         android:textColor="@color/darkBrown"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/imageView2"
+        app:layout_constraintStart_toEndOf="@+id/picMain"
         app:layout_constraintTop_toTopOf="@+id/frameLayout" />
 
     <RatingBar

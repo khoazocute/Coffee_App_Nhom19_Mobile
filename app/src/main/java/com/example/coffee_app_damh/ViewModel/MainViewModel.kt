@@ -21,4 +21,29 @@ class MainViewModel: ViewModel() {
     fun loadPopular(): LiveData<MutableList<ItemsModel>>{
         return repository.loadPopular()
     }
+//Nhận categoryId từ Activity => trả về livedata => chuyển tiếp cho Repository xử lý
+//Gọi hàm từ Repository và trả LiveData lên cho Activity
+    fun loadItems(categoryId:String): LiveData<MutableList<ItemsModel>>{
+        return repository.loadItemCategory(categoryId) // Gọi hàm và chuyển tiếp yêu cầu xuống Repository
+    //ViewModel sẽ nhận LiveData từ Repository va tra nó về Activity
+    }
+
+    // Thêm hàm này vào cuối lớp MainViewModel
+    fun loadAllItems(): LiveData<MutableList<ItemsModel>> {
+        return repository.loadAllItems()}
 }
+                /*
+                Activity
+                  ↓ gọi loadItems(categoryId)
+                ViewModel
+                  ↓ gọi repository.loadItemCategory(categoryId)
+                Repository
+                  ↓ query Firebase
+                  ↓ tạo list ItemsModel
+                  ↓ gán LiveData.value
+                ViewModel
+                  ↓ trả LiveData
+                Activity
+                  ↓ observe LiveData
+                RecyclerView cập nhật UI
+                 */

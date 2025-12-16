@@ -17,54 +17,59 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity extends AppCompatActivity {
-    //Khai báo các biến EditText và Button
-    private EditText name,phone,email,password,confirmpassword;
-    private Button backlogin,btnsignup;
+
+    private EditText name, phone, email, password, confirmpassword;
+    private Button backlogin, btnsignup;
     private FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        mAuth=FirebaseAuth.getInstance();
 
-            //Ánh xạ biến từ giao điện qua, trùng khớp với các id bên giao diện
-            name=findViewById(R.id.name);
-            phone=findViewById(R.id.phone);
-            email=findViewById(R.id.email);
-            password=findViewById(R.id.password);
-            confirmpassword=findViewById(R.id.confirm_password);
-            backlogin=findViewById(R.id.btn_backtologin);
-            btnsignup=findViewById(R.id.sign_up);
-            //Lắng nghe sự kiện nhấn nút login
-            btnsignup.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    register();
-                }
-            });
+        mAuth = FirebaseAuth.getInstance();
+
+        name = findViewById(R.id.name);
+        phone = findViewById(R.id.phone);
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        confirmpassword = findViewById(R.id.confirm_password);
+        backlogin = findViewById(R.id.btn_backtologin);
+        btnsignup = findViewById(R.id.sign_up);
+
+        btnsignup.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                register();
+            }
+        });
 
         backlogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Tạo Intent để chuyển về LoginActivity
-                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(RegisterActivity.this, LoginActivity.class));
                 finish();
             }
         });
-        }
+    }
 
     private void register() {
-        // 1. Lấy dữ liệu từ các trường EditText
-        String userName = name.getText().toString();
-        String phoneNumber = phone.getText().toString();
-        String userEmail = email.getText().toString();
+        String userName = name.getText().toString().trim();
+        String phoneNumber = phone.getText().toString().trim();
+        String userEmail = email.getText().toString().trim();
         String userPassword = password.getText().toString();
         String userConfirmPassword = confirmpassword.getText().toString();
 
-        // 2. Kiểm tra các trường bị bỏ trống (Validation)
+        // Validate
         if (TextUtils.isEmpty(userName)) {
             Toast.makeText(this, "Vui lòng nhập tên", Toast.LENGTH_SHORT).show();
             return;
@@ -85,33 +90,74 @@ public class RegisterActivity extends AppCompatActivity {
             Toast.makeText(this, "Vui lòng nhập Xác nhận Mật khẩu.", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        // 3. Kiểm tra Mật khẩu và Xác nhận Mật khẩu có khớp nhau không
         if (!userPassword.equals(userConfirmPassword)) {
-            Toast.makeText(this, "Mật khẩu và Xác nhận Mật khẩu không khớp.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Mật khẩu và Xác nhận không khớp.", Toast.LENGTH_LONG).show();
             return;
         }
-
-        // 4. Kiểm tra độ dài Mật khẩu
         if (userPassword.length() < 6) {
-            Toast.makeText(this, "Mật khẩu phải có ít nhất 6 ký tự.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Mật khẩu phải >= 6 ký tự.", Toast.LENGTH_LONG).show();
             return;
         }
-        mAuth.createUserWithEmailAndPassword(userEmail,userPassword).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    Toast.makeText(getApplicationContext(), "Đăng ký thành công.", Toast.LENGTH_SHORT).show();
-                    Intent i = new Intent(RegisterActivity.this,LoginActivity.class);
-                    startActivity(i);
-                } else {
-                    if (task.getException() instanceof FirebaseAuthUserCollisionException) {
-                        Toast.makeText(getApplicationContext(), "Email đã tồn tại.", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(getApplicationContext(), "Đăng ký thất bại.", Toast.LENGTH_SHORT).show();
-                    }
-            }
-        };
 
-    });
-}};
+        // Tạo tài khoản Auth
+        mAuth.createUserWithEmailAndPassword(userEmail, userPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+
+                            FirebaseUser user = mAuth.getCurrentUser();
+                            if (user != null) {
+
+                                // 1. Cập nhật displayName cho Auth
+                                UserProfileChangeRequest profileUpdates =
+                                        new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(userName)
+                                                .build();
+                                user.updateProfile(profileUpdates);
+
+                                // 2. Lưu thêm vào Realtime Database
+                                DatabaseReference ref = FirebaseDatabase.getInstance()
+                                        .getReference("users")
+                                        .child(user.getUid());
+
+                                Map<String, Object> userMap = new HashMap<>();
+                                userMap.put("name", userName);
+                                userMap.put("phone", phoneNumber);
+                                userMap.put("email", userEmail);
+                                userMap.put("role", "user");
+                                ref.setValue(userMap).addOnCompleteListener(taskDb -> {
+                                    if (taskDb.isSuccessful()) {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Đăng ký thành công.",
+                                                Toast.LENGTH_SHORT).show();
+                                    } else {
+                                        Toast.makeText(RegisterActivity.this,
+                                                "Đăng ký OK nhưng lưu DB lỗi: "
+                                                        + taskDb.getException().getMessage(),
+                                                Toast.LENGTH_LONG).show();
+                                    }
+                                });
+                            }
+
+                            // Quay về Login
+                            Intent i = new Intent(RegisterActivity.this, LoginActivity.class);
+                            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+                            startActivity(i);
+                            finish();
+
+                        } else {
+                            if (task.getException() instanceof FirebaseAuthUserCollisionException) {
+                                Toast.makeText(getApplicationContext(),
+                                        "Email đã tồn tại.", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getApplicationContext(),
+                                        "Đăng ký thất bại: "
+                                                + task.getException().getMessage(),
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }
+                });
+    }
+}
