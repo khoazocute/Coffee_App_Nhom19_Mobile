@@ -23,6 +23,9 @@
         <activity
             android:name=".Activity.OrderSuccessActivity"
             android:exported="false" />
+        <activity
+            android:name=".Activity.AddProductActivity"
+            android:exported="false" />
 
         <activity
             android:name=".Activity.DetailActivity"
