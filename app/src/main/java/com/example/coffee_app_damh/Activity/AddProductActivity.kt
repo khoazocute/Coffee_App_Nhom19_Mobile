@@ -1,4 +1,4 @@
-// HÃY THAY THẾ TOÀN BỘ NỘI DUNG FILE CŨ BẰNG FILE NÀY
+// HÃY THAY THẾ TOÀN BỘ FILE CŨ BẰNG NỘI DUNG NÀY
 package com.example.coffee_app_damh.Activity
 
 import android.app.Activity
@@ -32,6 +32,8 @@ class AddProductActivity : AppCompatActivity() {
     private var imageBase64: String? = null
     private val categories = mutableListOf<CategoryModel>()
     private var selectedCategoryId: Int = -1
+    private var isEditMode = false       // Cờ đánh dấu chế độ sửa
+    private var itemToEdit: ItemsModel? = null // Lưu sản phẩm cần sửa
 
     private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
         if (result.resultCode == Activity.RESULT_OK) {
@@ -39,9 +41,6 @@ class AddProductActivity : AppCompatActivity() {
             imageUri?.let {
                 Glide.with(this).load(it).into(binding.productImageView)
                 imageBase64 = encodeImageToBase64(it)
-                if (imageBase64 == null) {
-                    Toast.makeText(this, "Không thể chuyển đổi ảnh, vui lòng thử ảnh khác", Toast.LENGTH_LONG).show()
-                }
             }
         }
     }
@@ -50,8 +49,42 @@ class AddProductActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityAddProductBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        // Kiểm tra xem có phải đang mở để Sửa không
+        checkEditMode()
+
         loadCategories()
         initListeners()
+    }
+
+    private fun checkEditMode() {
+        // Lấy object được truyền từ ManageProductsActivity (nếu có)
+        itemToEdit = intent.getSerializableExtra("object") as? ItemsModel
+
+        if (itemToEdit != null) {
+            isEditMode = true
+            binding.saveBtn.text = "Cập nhật sản phẩm"
+            binding.headerTitle.text = "Sửa sản phẩm"
+
+            // Đổ dữ liệu cũ vào form
+            binding.titleEdt.setText(itemToEdit!!.title)
+            binding.descriptionEdt.setText(itemToEdit!!.description)
+            binding.priceEdt.setText(itemToEdit!!.price.toString())
+            binding.stockEdt.setText(itemToEdit!!.stock.toString())
+
+            // Xử lý ảnh cũ
+            imageBase64 = itemToEdit!!.picBase64
+
+            // --- SỬA LỖI TẠI ĐÂY: Dùng isNullOrEmpty() thay vì isNotEmpty() ---
+            if (!imageBase64.isNullOrEmpty()) {
+                try {
+                    val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)
+                    Glide.with(this).load(imageBytes).into(binding.productImageView)
+                } catch (e: Exception) { }
+            } else if (itemToEdit!!.picUrl.isNotEmpty()) {
+                Glide.with(this).load(itemToEdit!!.picUrl[0]).into(binding.productImageView)
+            }
+        }
     }
 
     private fun initListeners() {
@@ -90,54 +123,63 @@ class AddProductActivity : AppCompatActivity() {
         val priceStr = binding.priceEdt.text.toString().trim()
         val stockStr = binding.stockEdt.text.toString().trim()
 
-        if (imageBase64.isNullOrEmpty()) {
-            Toast.makeText(this, "Vui lòng chọn ảnh hợp lệ", Toast.LENGTH_SHORT).show()
-            return
-        }
-
         if (title.isEmpty() || description.isEmpty() || priceStr.isEmpty() || stockStr.isEmpty()) {
             Toast.makeText(this, "Vui lòng điền đầy đủ thông tin", Toast.LENGTH_SHORT).show()
             return
         }
 
-        // Nếu không có loại nào được chọn (và danh sách loại có sẵn), tự động gán loại đầu tiên
+        if (!isEditMode && imageBase64 == null) {
+            Toast.makeText(this, "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        if (isEditMode && imageBase64.isNullOrEmpty() && itemToEdit?.picUrl.isNullOrEmpty()) {
+            Toast.makeText(this, "Vui lòng chọn ảnh", Toast.LENGTH_SHORT).show()
+            return
+        }
+
         if (selectedCategoryId == -1 && categories.isNotEmpty()) {
             selectedCategoryId = categories[0].id
         }
 
         showLoading(true)
-        saveProductToDatabase(title, description, priceStr.toDouble(), selectedCategoryId, stockStr.toInt(), imageBase64!!)
+        saveProductToDatabase(title, description, priceStr.toDouble(), selectedCategoryId, stockStr.toInt(), imageBase64 ?: "")
     }
 
     private fun saveProductToDatabase(title: String, description: String, price: Double, categoryId: Int, stock: Int, base64: String) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("Items")
-        val itemId = databaseRef.push().key ?: ""
+        val popularRef = FirebaseDatabase.getInstance().getReference("Popular")
 
-        val newProduct = ItemsModel().apply {
+        val itemId = if (isEditMode && itemToEdit != null) itemToEdit!!.id else (databaseRef.push().key ?: "")
+
+        val product = ItemsModel().apply {
             this.id = itemId
             this.title = title
             this.description = description
             this.price = price
-            this.rating = (35..50).random() / 10.0
             this.stock = stock
-            //this.categoryId = categoryId
+            this.rating = if (isEditMode) itemToEdit!!.rating else (35..50).random() / 10.0
+
             this.picBase64 = base64
+            if (isEditMode && base64.isEmpty() && itemToEdit!!.picUrl.isNotEmpty()) {
+                this.picUrl = itemToEdit!!.picUrl
+            }
         }
 
-        databaseRef.child(itemId).setValue(newProduct).addOnCompleteListener { task ->
-            showLoading(false)
+        databaseRef.child(itemId).setValue(product).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Toast.makeText(this, "Thêm sản phẩm thành công!", Toast.LENGTH_SHORT).show()
+                popularRef.child(itemId).setValue(product)
+
+                showLoading(false)
+                val msg = if (isEditMode) "Cập nhật thành công!" else "Thêm mới thành công!"
+                Toast.makeText(this, msg, Toast.LENGTH_SHORT).show()
                 finish()
             } else {
-                Toast.makeText(this, "Lưu sản phẩm thất bại: ${task.exception?.message}", Toast.LENGTH_LONG).show()
+                showLoading(false)
+                Toast.makeText(this, "Lỗi: ${task.exception?.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
-
-    // ================================================================
-    // === PHẦN CODE QUAN TRỌNG ĐÃ ĐƯỢC BỔ SUNG LẠI ĐẦY ĐỦ Ở ĐÂY ===
-    // ================================================================
 
     private fun loadCategories() {
         showLoading(true)
@@ -146,43 +188,38 @@ class AddProductActivity : AppCompatActivity() {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     categories.clear()
                     snapshot.children.forEach {
-                        // Đảm bảo CategoryModel có constructor rỗng
                         it.getValue(CategoryModel::class.java)?.let { category ->
                             categories.add(category)
                         }
                     }
-                    // Sau khi tải xong, gọi hàm để hiển thị lên Spinner
                     setupCategorySpinner()
                     showLoading(false)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
                     showLoading(false)
-                    Toast.makeText(this@AddProductActivity, "Lỗi tải phân loại: ${error.message}", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AddProductActivity, "Lỗi tải phân loại", Toast.LENGTH_SHORT).show()
                 }
             })
     }
 
     private fun setupCategorySpinner() {
-        // Lấy danh sách tên của các loại
         val categoryTitles = categories.map { it.title }
-        // Tạo một adapter đơn giản để hiển thị danh sách tên này
         val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, categoryTitles)
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        // Gán adapter cho Spinner
         binding.categorySpinner.adapter = adapter
 
-        // Lắng nghe sự kiện khi người dùng chọn một mục trong Spinner
+        if (isEditMode && itemToEdit != null && categories.isNotEmpty()) {
+            // Logic tìm vị trí category cũ nếu cần
+        }
+
         binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                // Khi một mục được chọn, lưu lại ID của mục đó
                 if (categories.isNotEmpty()) {
                     selectedCategoryId = categories[position].id
                 }
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                // Không cần làm gì ở đây
-            }
+            override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
     }
 

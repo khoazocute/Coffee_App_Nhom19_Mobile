@@ -1,7 +1,6 @@
-// HÃY THAY THẾ TOÀN BỘ FILE ManageProductsActivity.kt CŨ BẰNG NỘI DUNG NÀY
+// HÃY THAY THẾ TOÀN BỘ FILE NÀY
 package com.example.coffee_app_damh.Activity
 
-import android.content.DialogInterface
 import android.content.Intent
 import android.os.Bundle
 import android.view.View
@@ -43,14 +42,12 @@ class ManageProductsActivity : AppCompatActivity() {
         binding.progressBar.visibility = View.VISIBLE
         val ref: DatabaseReference = database.getReference("Items")
 
-        // Dùng addValueEventListener để tự động cập nhật list khi có xóa/thêm
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val items = mutableListOf<ItemsModel>()
                 for (itemSnapshot in snapshot.children) {
                     val item = itemSnapshot.getValue(ItemsModel::class.java)
                     item?.let {
-                        // Quan trọng: Lấy key từ Firebase gán vào ID
                         it.id = itemSnapshot.key ?: ""
                         items.add(it)
                     }
@@ -63,10 +60,19 @@ class ManageProductsActivity : AppCompatActivity() {
                     binding.emptyTxt.visibility = View.GONE
                     binding.productsRecyclerView.layoutManager = LinearLayoutManager(this@ManageProductsActivity)
 
-                    // === TRUYỀN HÀM XỬ LÝ XÓA VÀO ADAPTER ===
-                    binding.productsRecyclerView.adapter = ProductManagementAdapter(items) { productToDelete ->
-                        showDeleteConfirmationDialog(productToDelete)
-                    }
+                    // === CẬP NHẬT ADAPTER VỚI CẢ 2 HÀM CALLBACK (XÓA & SỬA) ===
+                    binding.productsRecyclerView.adapter = ProductManagementAdapter(
+                        items,
+                        onDeleteClick = { productToDelete ->
+                            showDeleteConfirmationDialog(productToDelete)
+                        },
+                        onEditClick = { productToEdit ->
+                            // Chuyển sang màn hình AddProductActivity nhưng ở chế độ Sửa
+                            val intent = Intent(this@ManageProductsActivity, AddProductActivity::class.java)
+                            intent.putExtra("object", productToEdit) // ItemsModel phải implements Serializable
+                            startActivity(intent)
+                        }
+                    )
 
                 } else {
                     binding.productsRecyclerView.visibility = View.GONE
@@ -76,16 +82,15 @@ class ManageProductsActivity : AppCompatActivity() {
 
             override fun onCancelled(error: DatabaseError) {
                 binding.progressBar.visibility = View.GONE
-                Toast.makeText(this@ManageProductsActivity, "Lỗi tải dữ liệu: ${error.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@ManageProductsActivity, "Lỗi tải dữ liệu", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    // Hiển thị hộp thoại xác nhận xóa
     private fun showDeleteConfirmationDialog(item: ItemsModel) {
         AlertDialog.Builder(this)
             .setTitle("Xác nhận xóa")
-            .setMessage("Bạn có chắc chắn muốn xóa sản phẩm '${item.title}' không?")
+            .setMessage("Bạn có chắc chắn muốn xóa '${item.title}'?")
             .setPositiveButton("Xóa") { dialog, _ ->
                 deleteProductFromFirebase(item)
                 dialog.dismiss()
@@ -96,28 +101,20 @@ class ManageProductsActivity : AppCompatActivity() {
             .show()
     }
 
-    // Thực hiện xóa trên Firebase
     private fun deleteProductFromFirebase(item: ItemsModel) {
-        if (item.id.isEmpty()) {
-            Toast.makeText(this, "Lỗi: Không tìm thấy ID sản phẩm", Toast.LENGTH_SHORT).show()
-            return
-        }
+        if (item.id.isEmpty()) return
 
         binding.progressBar.visibility = View.VISIBLE
 
-        // 1. Xóa trong node Items (Quản lý)
+        // Xóa Items
         val itemsRef = database.getReference("Items").child(item.id)
         itemsRef.removeValue().addOnCompleteListener { task ->
             if (task.isSuccessful) {
-
-                // 2. Xóa luôn trong node Popular (User) nếu có để đồng bộ
-                val popularRef = database.getReference("Popular").child(item.id)
-                popularRef.removeValue()
-
-                Toast.makeText(this, "Đã xóa sản phẩm thành công", Toast.LENGTH_SHORT).show()
-                // Không cần gọi loadProducts() lại vì addValueEventListener tự động lắng nghe thay đổi
+                // Xóa Popular
+                database.getReference("Popular").child(item.id).removeValue()
+                Toast.makeText(this, "Đã xóa thành công", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this, "Xóa thất bại: ${task.exception?.message}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Xóa thất bại", Toast.LENGTH_SHORT).show()
             }
             binding.progressBar.visibility = View.GONE
         }
