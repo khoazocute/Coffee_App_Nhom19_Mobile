@@ -10,4 +10,21 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">17dp</item>
     </style>
+    <style name="AdminFormLabel" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">16dp</item>
+        <item name="android:textColor">@color/darkBrown</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <!-- Style cho các ô nhập liệu trong form của Admin -->
+    <style name="AdminFormInput" parent="Widget.AppCompat.EditText">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:background">@drawable/white_bg</item>
+        <item name="android:padding">16dp</item>
+        <item name="android:textSize">16sp</item>
+    </style>
 </resources>

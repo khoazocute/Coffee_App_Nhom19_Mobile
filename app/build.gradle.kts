@@ -61,5 +61,6 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
     implementation("androidx.cardview:cardview:X.Y.Z")
     implementation("com.google.code.gson:gson:2.10.1")
+    implementation("com.google.firebase:firebase-storage-ktx:20.3.0")
 
 }

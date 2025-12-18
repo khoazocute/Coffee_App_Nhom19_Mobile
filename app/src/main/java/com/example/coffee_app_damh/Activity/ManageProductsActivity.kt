@@ -32,8 +32,11 @@ class ManageProductsActivity : AppCompatActivity() {
         binding.backBtn.setOnClickListener { finish() }
 
         binding.addFab.setOnClickListener {
-            // TODO: Mở màn hình AddProductActivity ở phần tiếp theo
-            Toast.makeText(this, "Chuẩn bị mở màn hình Thêm Sản phẩm...", Toast.LENGTH_SHORT).show()
+            // === SỬA LẠI ĐOẠN NÀY ===
+            // Mở màn hình AddProductActivity
+            val intent = Intent(this, AddProductActivity::class.java)
+            startActivity(intent)
+            // =======================
         }
     }
 

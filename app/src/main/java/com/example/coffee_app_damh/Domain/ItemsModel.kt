@@ -8,7 +8,11 @@ data class ItemsModel(
     var description: String = "",
     var picUrl: ArrayList<String> = ArrayList(),
     var price: Double = 0.0,
+    var stock: Int = 0,        // Số lượng sản phẩm còn lại trong kho
     var rating: Double = 0.0,
+    var picBase64: String = "",
+    //var categoryId: Int = 0,
     var numberInCart: Int = 0,
     var extra: String = ""
+
 ): Serializable
