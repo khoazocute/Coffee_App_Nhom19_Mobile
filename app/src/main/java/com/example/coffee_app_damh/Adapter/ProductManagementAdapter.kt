@@ -12,7 +12,7 @@ import com.example.coffee_app_damh.R
 import com.example.coffee_app_damh.databinding.ViewholderProductManagementBinding
 import java.text.DecimalFormat
 
-class ProductManagementAdapter(private val items: List<ItemsModel>) : RecyclerView.Adapter<ProductManagementAdapter.ViewHolder>() {
+class ProductManagementAdapter(private val items: List<ItemsModel>,  private val onDeleteClick: (ItemsModel) -> Unit ) : RecyclerView.Adapter<ProductManagementAdapter.ViewHolder>() {
 
     private lateinit var context: Context
 
@@ -49,6 +49,16 @@ class ProductManagementAdapter(private val items: List<ItemsModel>) : RecyclerVi
                 pic.setImageResource(R.drawable.logo3)
             }
             // =====================================
+            // === SỰ KIỆN NÚT XÓA ===
+            deleteBtn.setOnClickListener {
+                // Gọi hàm callback khi bấm xóa
+                onDeleteClick(item)
+            }
+
+            // (Tạm thời để trống nút Sửa)
+            editBtn.setOnClickListener {
+                // Có thể thêm logic sửa sau này
+            }
         }
     }
 
