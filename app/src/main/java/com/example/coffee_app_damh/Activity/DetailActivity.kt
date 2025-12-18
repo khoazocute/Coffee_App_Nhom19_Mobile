@@ -1,16 +1,17 @@
+// HÃY THAY THẾ TOÀN BỘ FILE DetailActivity.kt BẰNG NỘI DUNG NÀY
 package com.example.coffee_app_damh.Activity
 
-import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.request.RequestOptions
 import com.example.coffee_app_damh.Domain.ItemsModel
 import com.example.coffee_app_damh.R
 import com.example.coffee_app_damh.databinding.ActivityDetailBinding
 import com.example.project1762.Helper.ManagmentCart
-import kotlin.math.min
 
 // Activity chịu trách nhiệm hiển thị chi tiết sản phẩm và quản lý việc thêm vào giỏ hàng
 class DetailActivity : AppCompatActivity() {
@@ -20,12 +21,13 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         this.enableEdgeToEdge()
-//Hàm .inflate(layoutInflater) có nhiệm vụ đọc layout
-// Hàm .inflate(layoutInflater) có nhiệm vụ đọc tệp XML (activity_detail.xml) và biến nó thành một đối tượng View (một quy trình gọi là Inflating).
-        binding= ActivityDetailBinding.inflate(layoutInflater)
-//Hàm setContentView dùng để thiết lập giao diện người dùng
+        // Hàm .inflate(layoutInflater) có nhiệm vụ đọc tệp XML (activity_detail.xml)
+        binding = ActivityDetailBinding.inflate(layoutInflater)
+        // Hàm setContentView dùng để thiết lập giao diện người dùng
         setContentView(binding.root)
-        managmentCart= ManagmentCart(this)
+
+        managmentCart = ManagmentCart(this)
+
         bundle()
         initSizeList()
     }
@@ -49,42 +51,76 @@ class DetailActivity : AppCompatActivity() {
             }
         }
     }
-//hàm xử lý dữ liệu
+
+    // hàm xử lý dữ liệu
     private fun bundle() {
-       binding.apply {
-           item= intent.getSerializableExtra("object") as ItemsModel //Lấy đối tượng object (itemsmodel) đã được truyền vào
-// Đối tượng Glide dùng để tải ảnh và hiển thị lên nơi có id là picMain
-           Glide.with(this@DetailActivity)
-               .load(item.picUrl[0])
-               .into(binding.picMain)
+        binding.apply {
+            // Lấy đối tượng object (ItemsModel) đã được truyền vào từ màn hình trước
+            item = intent.getSerializableExtra("object") as ItemsModel
 
-           titleTxt.text = item.title
-           descriptionTxt.text = item.description
-           priceTxt.text = "$" + item.price
-           ratingTxt.text = item.rating.toString()
+            // === PHẦN SỬA ĐỔI QUAN TRỌNG ĐỂ KHÔNG BỊ LỖI GIỎ HÀNG ===
+            // Logic: Kiểm tra ảnh Base64 trước, nếu không có mới kiểm tra URL
 
-           addToCartBtn.setOnClickListener {
-               item.numberInCart = Integer.valueOf(
-                   numberItemTxt.text.toString()
-               )
-               //lưu trữ dữ liệu vào giỏ hàng
-               managmentCart.insertItems(item)
-           }
-           backBtn.setOnClickListener {
-               finish()
-           }
-           plusCart.setOnClickListener {
-               numberItemTxt.text=(item.numberInCart+1).toString()
-               item.numberInCart++
-           }
-           minusBtn.setOnClickListener {
-               if(item.numberInCart>0)
-                   numberItemTxt.text=(item.numberInCart-1).toString()
-               item.numberInCart--
-           }
-       }
+            val requestOptions = RequestOptions().transform(CenterCrop())
+
+            if (!item.picBase64.isNullOrEmpty()) {
+                // Trường hợp 1: Sản phẩm mới (ảnh từ máy admin)
+                try {
+                    val imageBytes = Base64.decode(item.picBase64, Base64.DEFAULT)
+                    Glide.with(this@DetailActivity)
+                        .load(imageBytes)
+                        .apply(requestOptions)
+                        .into(binding.picMain)
+                } catch (e: Exception) {
+                    binding.picMain.setImageResource(R.drawable.logo5)
+                }
+            } else if (item.picUrl.isNotEmpty()) {
+                // Trường hợp 2: Sản phẩm cũ (ảnh từ link URL)
+                Glide.with(this@DetailActivity)
+                    .load(item.picUrl[0])
+                    .apply(requestOptions)
+                    .into(binding.picMain)
+            } else {
+                // Trường hợp 3: Không có ảnh
+                binding.picMain.setImageResource(R.drawable.logo5)
+            }
+            // ========================================================
+
+            titleTxt.text = item.title
+            descriptionTxt.text = item.description
+            priceTxt.text = "$" + item.price
+            ratingTxt.text = item.rating.toString()
+
+            addToCartBtn.setOnClickListener {
+                // Cập nhật số lượng item hiện tại vào object trước khi thêm
+                item.numberInCart = Integer.valueOf(
+                    numberItemTxt.text.toString()
+                )
+                // lưu trữ dữ liệu vào giỏ hàng
+                managmentCart.insertItems(item)
+            }
+
+            backBtn.setOnClickListener {
+                finish()
+            }
+
+            plusCart.setOnClickListener {
+                // Tăng số lượng hiển thị trên màn hình
+                var currentNum = numberItemTxt.text.toString().toInt()
+                currentNum++
+                numberItemTxt.text = currentNum.toString()
+                // Cập nhật biến tạm (lưu ý: số lượng thực tế sẽ được set lại khi bấm AddToCart)
+                item.numberInCart = currentNum
+            }
+
+            minusBtn.setOnClickListener {
+                var currentNum = numberItemTxt.text.toString().toInt()
+                if (currentNum > 1) { // Chỉ giảm khi số lượng > 1
+                    currentNum--
+                    numberItemTxt.text = currentNum.toString()
+                    item.numberInCart = currentNum
+                }
+            }
+        }
     }
 }
-
-
-
