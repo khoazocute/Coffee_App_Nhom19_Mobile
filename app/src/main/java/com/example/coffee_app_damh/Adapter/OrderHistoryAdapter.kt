@@ -3,6 +3,7 @@
 
 package com.example.coffee_app_damh.Adapter
 
+import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -32,6 +33,14 @@ class OrderHistoryAdapter(private val orders: List<OrderModel>) : RecyclerView.A
             dateTxt.text = dateFormat.format(Date(order.orderDate))
             statusTxt.text = order.status
             totalTxt.text = "$${formatter.format(order.total)}"
+            // === ĐỔI MÀU NỀN TRẠNG THÁI ===
+            when (order.status) {
+                "Đang xử lý" -> statusTxt.setTextColor(Color.parseColor("#FFA726")) // Cam
+                "Đang giao" -> statusTxt.setTextColor(Color.parseColor("#29B6F6")) // Xanh dương
+                "Hoàn thành" -> statusTxt.setTextColor(Color.parseColor("#66BB6A")) // Xanh lá
+                "Đã hủy" -> statusTxt.setTextColor(Color.parseColor("#EF5350")) // Đỏ
+                else -> statusTxt.setTextColor(Color.GRAY)
+            }
 
             // === SỬA LỖI LOGIC: Đọc thẳng title từ order.items ===
             val itemsSummary = order.items.joinToString(separator = "\n") { orderItem ->

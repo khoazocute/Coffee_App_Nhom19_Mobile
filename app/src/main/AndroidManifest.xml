@@ -45,6 +45,9 @@
         <activity
             android:name=".Activity.ManageProductsActivity"
             android:exported="false" />
+        <activity android:name=".Activity.ManageOrdersActivity"
+            android:exported="false" />
+
         <activity
             android:name=".LoginActivity"
             android:exported="true">

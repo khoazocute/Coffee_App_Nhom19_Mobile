@@ -6,74 +6,132 @@
     android:layout_height="match_parent"
     android:background="@color/LightCream">
 
-    <!-- Header Layout -->
+    <!-- 1. Header -->
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/headerLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="48dp"
         android:paddingBottom="16dp"
+        android:background="@color/white"
         app:layout_constraintTop_toTopOf="parent">
 
-        <!-- Nút Back: Gom hình và chữ vào 1 nhóm để dễ bấm -->
-        <LinearLayout
+        <ImageView
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
-            android:background="?attr/selectableItemBackground"
-            android:clickable="true"
-            android:focusable="true"
-            android:gravity="center_vertical"
-            android:orientation="horizontal"
             android:padding="8dp"
+            android:src="@drawable/back"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/black" />
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/back"
-                app:tint="@color/darkBrown" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:text="Back"
-                android:textColor="@color/darkBrown"
-                android:textSize="16sp" />
-        </LinearLayout>
-
-        <!-- Tiêu đề màn hình -->
         <TextView
             android:id="@+id/titleTxt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Quản Lý Đơn Hàng"
-            android:textColor="@color/darkBrown"
-            android:textSize="22sp"
+            android:text="Quản lý đơn hàng"
+            android:textColor="@color/black"
+            android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    <!-- Danh sách đơn hàng -->
+    <!-- 2. Bộ lọc (Horizontal Scroll) -->
+    <HorizontalScrollView
+        android:id="@+id/filterScrollView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:paddingVertical="12dp"
+        android:clipToPadding="false"
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp">
+
+            <!-- Các nút lọc sẽ được xử lý logic đổi màu trong Activity -->
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/filterAll"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Tất cả"
+                android:textSize="13sp"
+                android:background="@drawable/bg_filter_selected"
+                android:textColor="@color/white"
+                android:textAllCaps="false"
+                android:paddingHorizontal="16dp"
+                android:layout_marginEnd="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/filterProcessing"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Đang xử lý"
+                android:textSize="13sp"
+                android:background="@drawable/bg_filter_unselected"
+                android:textColor="@color/grey"
+                android:textAllCaps="false"
+                android:paddingHorizontal="16dp"
+                android:layout_marginEnd="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/filterShipping"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Đang giao"
+                android:textSize="13sp"
+                android:background="@drawable/bg_filter_unselected"
+                android:textColor="@color/grey"
+                android:textAllCaps="false"
+                android:paddingHorizontal="16dp"
+                android:layout_marginEnd="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/filterCompleted"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Hoàn thành"
+                android:textSize="13sp"
+                android:background="@drawable/bg_filter_unselected"
+                android:textColor="@color/grey"
+                android:textAllCaps="false"
+                android:paddingHorizontal="16dp"
+                android:layout_marginEnd="8dp"/>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/filterCancelled"
+                android:layout_width="wrap_content"
+                android:layout_height="36dp"
+                android:text="Đã hủy"
+                android:textSize="13sp"
+                android:background="@drawable/bg_filter_unselected"
+                android:textColor="@color/grey"
+                android:textAllCaps="false"
+                android:paddingHorizontal="16dp"/>
+        </LinearLayout>
+    </HorizontalScrollView>
+
+    <!-- 3. Danh sách đơn hàng -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/ordersRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:clipToPadding="false"
+        android:paddingTop="8dp"
         android:paddingBottom="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headerLayout"
-        tools:listitem="@layout/viewholder_manage_order" />
+        app:layout_constraintTop_toBottomOf="@id/filterScrollView" />
 
-    <!-- Loading Bar -->
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"
@@ -83,18 +141,17 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <!-- Thông báo khi không có đơn -->
     <TextView
         android:id="@+id/emptyTxt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Chưa có đơn hàng nào"
+        android:text="Không tìm thấy đơn hàng"
         android:textColor="@color/grey"
         android:textSize="16sp"
         android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/headerLayout" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

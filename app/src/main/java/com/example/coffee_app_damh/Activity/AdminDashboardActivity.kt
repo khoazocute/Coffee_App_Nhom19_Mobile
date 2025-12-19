@@ -79,9 +79,9 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
 
         binding.manageOrdersCard.setOnClickListener {
-            Toast.makeText(this, "Chức năng Quản lý đơn hàng sắp ra mắt!", Toast.LENGTH_SHORT).show()
-           // val intent = Intent(this, ManageOrdersActivity::class.java)
-            //startActivity(intent)
+            //Toast.makeText(this, "Chức năng Quản lý đơn hàng sắp ra mắt!", Toast.LENGTH_SHORT).show()
+           val intent = Intent(this, ManageOrdersActivity::class.java)
+            startActivity(intent)
         }
 
         binding.manageUsersCard.setOnClickListener {
