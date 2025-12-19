@@ -3,6 +3,7 @@
 
 package com.example.coffee_app_damh.Activity
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
