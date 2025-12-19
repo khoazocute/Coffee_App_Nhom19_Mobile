@@ -35,15 +35,16 @@ class AddProductActivity : AppCompatActivity() {
     private var isEditMode = false       // Cờ đánh dấu chế độ sửa
     private var itemToEdit: ItemsModel? = null // Lưu sản phẩm cần sửa
 
-    private val pickImageLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val imageUri = result.data?.data
-            imageUri?.let {
-                Glide.with(this).load(it).into(binding.productImageView)
-                imageBase64 = encodeImageToBase64(it)
+    private val pickImageLauncher =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val imageUri = result.data?.data
+                imageUri?.let {
+                    Glide.with(this).load(it).into(binding.productImageView)
+                    imageBase64 = encodeImageToBase64(it)
+                }
             }
         }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,7 +81,8 @@ class AddProductActivity : AppCompatActivity() {
                 try {
                     val imageBytes = Base64.decode(imageBase64, Base64.DEFAULT)
                     Glide.with(this).load(imageBytes).into(binding.productImageView)
-                } catch (e: Exception) { }
+                } catch (e: Exception) {
+                }
             } else if (itemToEdit!!.picUrl.isNotEmpty()) {
                 Glide.with(this).load(itemToEdit!!.picUrl[0]).into(binding.productImageView)
             }
@@ -143,14 +145,30 @@ class AddProductActivity : AppCompatActivity() {
         }
 
         showLoading(true)
-        saveProductToDatabase(title, description, priceStr.toDouble(), selectedCategoryId, stockStr.toInt(), imageBase64 ?: "")
+        saveProductToDatabase(
+            title,
+            description,
+            priceStr.toDouble(),
+            selectedCategoryId,
+            stockStr.toInt(),
+            imageBase64 ?: ""
+        )
     }
 
-    private fun saveProductToDatabase(title: String, description: String, price: Double, categoryId: Int, stock: Int, base64: String) {
+    private fun saveProductToDatabase(
+        title: String,
+        description: String,
+        price: Double,
+        categoryId: Int,
+        stock: Int,
+        base64: String
+    ) {
         val databaseRef = FirebaseDatabase.getInstance().getReference("Items")
         val popularRef = FirebaseDatabase.getInstance().getReference("Popular")
 
-        val itemId = if (isEditMode && itemToEdit != null) itemToEdit!!.id else (databaseRef.push().key ?: "")
+        val itemId =
+            if (isEditMode && itemToEdit != null) itemToEdit!!.id else (databaseRef.push().key
+                ?: "")
 
         val product = ItemsModel().apply {
             this.id = itemId
@@ -198,7 +216,8 @@ class AddProductActivity : AppCompatActivity() {
 
                 override fun onCancelled(error: DatabaseError) {
                     showLoading(false)
-                    Toast.makeText(this@AddProductActivity, "Lỗi tải phân loại", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@AddProductActivity, "Lỗi tải phân loại", Toast.LENGTH_SHORT)
+                        .show()
                 }
             })
     }
@@ -213,14 +232,21 @@ class AddProductActivity : AppCompatActivity() {
             // Logic tìm vị trí category cũ nếu cần
         }
 
-        binding.categorySpinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                if (categories.isNotEmpty()) {
-                    selectedCategoryId = categories[position].id
+        binding.categorySpinner.onItemSelectedListener =
+            object : AdapterView.OnItemSelectedListener {
+                override fun onItemSelected(
+                    parent: AdapterView<*>?,
+                    view: View?,
+                    position: Int,
+                    id: Long
+                ) {
+                    if (categories.isNotEmpty()) {
+                        selectedCategoryId = categories[position].id
+                    }
                 }
+
+                override fun onNothingSelected(parent: AdapterView<*>?) {}
             }
-            override fun onNothingSelected(parent: AdapterView<*>?) {}
-        }
     }
 
     private fun showLoading(isLoading: Boolean) {
