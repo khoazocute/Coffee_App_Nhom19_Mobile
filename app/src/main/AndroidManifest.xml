@@ -47,6 +47,8 @@
             android:exported="false" />
         <activity android:name=".Activity.ManageOrdersActivity"
             android:exported="false" />
+        <activity android:name=".Activity.OrderDetailAdminActivity"
+            android:exported="false" />
 
         <activity
             android:name=".LoginActivity"
