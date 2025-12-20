@@ -1,5 +1,6 @@
 package com.example.coffee_app_damh.Activity
 
+import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
@@ -42,11 +43,19 @@ class ManageOrdersActivity : AppCompatActivity() {
 
     private fun setupRecyclerView() {
         binding.ordersRecyclerView.layoutManager = LinearLayoutManager(this)
+
+        // --- SỬA TẠI ĐÂY ---
         adapter = ManageOrdersAdapter(displayOrders) { order ->
-            showUpdateStatusDialog(order)
+            // Khi click vào item, chuyển sang màn hình Chi tiết
+            val intent = Intent(this, OrderDetailAdminActivity::class.java)
+            intent.putExtra("object", order) // Truyền object OrderModel sang
+            startActivity(intent)
         }
+        // -------------------
+
         binding.ordersRecyclerView.adapter = adapter
     }
+
 
     private fun setupFilters() {
         val buttons = listOf(
@@ -127,31 +136,5 @@ class ManageOrdersActivity : AppCompatActivity() {
                 Toast.makeText(this@ManageOrdersActivity, "Lỗi tải: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
-    }
-
-    private fun showUpdateStatusDialog(order: OrderModel) {
-        val statuses = arrayOf("Đang xử lý", "Đang giao", "Hoàn thành", "Đã hủy")
-        var checkedItem = statuses.indexOf(order.status)
-        if (checkedItem == -1) checkedItem = 0
-
-        AlertDialog.Builder(this)
-            .setTitle("Cập nhật trạng thái")
-            .setSingleChoiceItems(statuses, checkedItem) { dialog, which ->
-                val newStatus = statuses[which]
-                updateOrderStatus(order.orderId, newStatus)
-                dialog.dismiss()
-            }
-            .setNegativeButton("Đóng", null)
-            .show()
-    }
-
-    private fun updateOrderStatus(orderId: String, newStatus: String) {
-        database.getReference("Orders").child(orderId).child("status").setValue(newStatus)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Đã cập nhật", Toast.LENGTH_SHORT).show()
-            }
-            .addOnFailureListener {
-                Toast.makeText(this, "Lỗi cập nhật", Toast.LENGTH_SHORT).show()
-            }
     }
 }
