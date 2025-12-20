@@ -49,7 +49,9 @@
             android:exported="false" />
         <activity android:name=".Activity.OrderDetailAdminActivity"
             android:exported="false" />
-
+        <activity
+            android:name=".Activity.EditProfileActivity"
+            android:exported="false" />
         <activity
             android:name=".LoginActivity"
             android:exported="true">

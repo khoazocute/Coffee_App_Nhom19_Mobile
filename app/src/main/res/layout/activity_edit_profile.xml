@@ -15,17 +15,38 @@
         android:paddingBottom="16dp"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
+        <!-- THAY ĐỔI TẠI ĐÂY: Gom Icon và Text vào LinearLayout để dễ bấm -->
+        <LinearLayout
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:padding="8dp"
-            android:src="@drawable/back"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/darkBrown" />
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/back"
+                app:tint="@color/darkBrown" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Back"
+                android:textColor="@color/darkBrown"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
 
         <TextView
             android:layout_width="wrap_content"

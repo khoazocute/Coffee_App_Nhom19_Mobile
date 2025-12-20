@@ -29,19 +29,15 @@ class ProfileActivity : AppCompatActivity() {
 
         val currentUser = auth.currentUser
         if (currentUser == null) {
-            // Nếu chưa đăng nhập thì đá về màn Login
             goToLogin()
             return
         }
 
-        // Tham chiếu đến /users/{uid} trên Realtime Database
         userDbRef = FirebaseDatabase.getInstance()
             .getReference("users")
             .child(currentUser.uid)
 
-        // Load thông tin user
         loadUserProfileData(currentUser)
-
         initListeners()
     }
 
@@ -53,21 +49,15 @@ class ProfileActivity : AppCompatActivity() {
     }
 
     private fun loadUserProfileData(currentUser: FirebaseUser) {
-        // Gán trước email từ Auth (phòng trường hợp DB không có)
         binding.emailTxt.text = currentUser.email ?: ""
 
-        // Avatar (nếu sau này em có lưu URL avatar trong DB thì có thể override thêm)
         currentUser.photoUrl?.let { uri ->
-            Glide.with(this)
-                .load(uri)
-                .into(binding.profilePic)
+            Glide.with(this).load(uri).into(binding.profilePic)
         }
 
-        // Gọi DB để lấy name / phone / email đã lưu khi đăng ký
         userDbRef.get()
             .addOnSuccessListener { snapshot ->
                 if (!snapshot.exists()) {
-                    // Không có dữ liệu user trong DB → dùng tạm từ Auth
                     binding.nameTxt.text = currentUser.email?.substringBefore("@") ?: "Người dùng"
                     binding.phoneTxt.visibility = View.GONE
                     return@addOnSuccessListener
@@ -77,7 +67,6 @@ class ProfileActivity : AppCompatActivity() {
                 val phoneDb = snapshot.child("phone").getValue(String::class.java)
                 val emailDb = snapshot.child("email").getValue(String::class.java)
 
-                // Name
                 binding.nameTxt.text = when {
                     !nameDb.isNullOrEmpty() -> nameDb
                     !currentUser.displayName.isNullOrEmpty() -> currentUser.displayName
@@ -85,7 +74,6 @@ class ProfileActivity : AppCompatActivity() {
                     else -> "Người dùng"
                 }
 
-                // Phone
                 if (!phoneDb.isNullOrEmpty()) {
                     binding.phoneTxt.text = phoneDb
                     binding.phoneTxt.visibility = View.VISIBLE
@@ -93,37 +81,33 @@ class ProfileActivity : AppCompatActivity() {
                     binding.phoneTxt.visibility = View.GONE
                 }
 
-                // Email (ưu tiên DB nếu có)
                 if (!emailDb.isNullOrEmpty()) {
                     binding.emailTxt.text = emailDb
                 }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(
-                    this,
-                    "Không tải được thông tin người dùng: ${e.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                // Fallback: dùng tạm thông tin từ Auth
-                binding.nameTxt.text =
-                    currentUser.email?.substringBefore("@") ?: "Người dùng"
+                Toast.makeText(this, "Lỗi tải thông tin: ${e.message}", Toast.LENGTH_SHORT).show()
+                binding.nameTxt.text = currentUser.email?.substringBefore("@") ?: "Người dùng"
                 binding.phoneTxt.visibility = View.GONE
             }
     }
 
     private fun initListeners() {
-        // Nút back trên thanh tiêu đề
-        binding.backText.setOnClickListener {
+        // === SỬA LỖI NÚT BACK TẠI ĐÂY ===
+        // Bắt sự kiện vào cả cụm (Container) để bấm vào icon hay chữ đều ăn
+        binding.backBtnContainer.setOnClickListener {
             finish()
         }
 
+        // === SỬA LỖI NÚT UPDATE (Bị lồng code thừa) ===
         binding.updateBtn.setOnClickListener {
-            Toast.makeText(this, "Chức năng Cập nhật sẽ được phát triển!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, EditProfileActivity::class.java)
+            startActivity(intent)
         }
 
         binding.menuHistory.setOnClickListener {
-            Toast.makeText(this, "Chức năng Lịch sử đơn hàng sẽ được phát triển!", Toast.LENGTH_SHORT).show()
+            // Chuyển sang màn hình Lịch sử đơn hàng
+            startActivity(Intent(this, OrderHistoryActivity::class.java))
         }
 
         binding.menuAddresses.setOnClickListener {
@@ -134,10 +118,17 @@ class ProfileActivity : AppCompatActivity() {
             Toast.makeText(this, "Chức năng Ưu đãi sẽ được phát triển!", Toast.LENGTH_SHORT).show()
         }
 
-        // Đăng xuất
         binding.logoutBtn.setOnClickListener {
             auth.signOut()
             goToLogin()
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val currentUser = auth.currentUser
+        if (currentUser != null) {
+            loadUserProfileData(currentUser)
         }
     }
 }
