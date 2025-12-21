@@ -8,7 +8,8 @@ import com.example.coffee_app_damh.databinding.ViewholderManageUserBinding
 
 class ManageUserAdapter(
     private val users: List<UserModel>,
-    private val onDeleteClick: (UserModel) -> Unit
+    private val onDeleteClick: (UserModel) -> Unit,
+    private val onItemClick: (UserModel) -> Unit
 ) : RecyclerView.Adapter<ManageUserAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ViewholderManageUserBinding) : RecyclerView.ViewHolder(binding.root)
@@ -28,6 +29,10 @@ class ManageUserAdapter(
 
             deleteBtn.setOnClickListener {
                 onDeleteClick(user)
+            }
+            // Bấm vào bất cứ đâu trên item (trừ nút xóa) -> Xem lịch sử
+            root.setOnClickListener {
+                onItemClick(user)
             }
         }
     }

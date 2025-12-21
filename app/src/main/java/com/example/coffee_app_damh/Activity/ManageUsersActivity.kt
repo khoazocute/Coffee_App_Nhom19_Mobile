@@ -1,5 +1,8 @@
+// File: /app/src/main/java/com/example/coffee_app_damh/Activity/ManageUsersActivity.kt
+
 package com.example.coffee_app_damh.Activity
 
+import android.content.Intent // Nhớ import Intentimport android.os.Bundle
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -34,7 +37,6 @@ class ManageUsersActivity : AppCompatActivity() {
     private fun loadUsers() {
         binding.progressBar.visibility = View.VISIBLE
 
-        // Lấy danh sách từ node "users"
         database.getReference("users").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val userList = ArrayList<UserModel>()
@@ -42,9 +44,7 @@ class ManageUsersActivity : AppCompatActivity() {
                 for (child in snapshot.children) {
                     val user = child.getValue(UserModel::class.java)
                     if (user != null) {
-                        user.uid = child.key ?: "" // Lấy key làm UID nếu trong model chưa có
-
-                        // Không hiển thị chính bản thân Admin trong danh sách để tránh tự xóa mình
+                        user.uid = child.key ?: ""
                         if (user.uid != currentUserUid) {
                             userList.add(user)
                         }
@@ -71,17 +71,32 @@ class ManageUsersActivity : AppCompatActivity() {
             binding.usersRecyclerView.visibility = View.VISIBLE
 
             binding.usersRecyclerView.layoutManager = LinearLayoutManager(this)
-            // quy định các item sẽ xếp chồng lên nhau
-            binding.usersRecyclerView.adapter = ManageUserAdapter(users) { userToDelete ->
-                confirmDeleteUser(userToDelete)
-            }
+
+            // === CẬP NHẬT ADAPTER TẠI ĐÂY ===
+            binding.usersRecyclerView.adapter = ManageUserAdapter(
+                users = users,
+                onDeleteClick = { userToDelete ->
+                    confirmDeleteUser(userToDelete)
+                },
+                // Thêm sự kiện click vào item
+                onItemClick = { userToView ->
+                    viewUserHistory(userToView)
+                }
+            )
         }
+    }
+
+    // Hàm chuyển sang màn hình lịch sử và gửi ID
+    private fun viewUserHistory(user: UserModel) {
+        val intent = Intent(this, OrderHistoryActivity::class.java)
+        intent.putExtra("userId", user.uid) // Gửi ID của user này sang
+        startActivity(intent)
     }
 
     private fun confirmDeleteUser(user: UserModel) {
         AlertDialog.Builder(this)
             .setTitle("Xóa người dùng")
-            .setMessage("Bạn có chắc chắn muốn xóa user '${user.email}' khỏi hệ thống?\n(Lưu ý: Tài khoản đăng nhập Auth sẽ không bị xóa ngay lập tức)")
+            .setMessage("Bạn có chắc chắn muốn xóa user '${user.email}' khỏi hệ thống?")
             .setPositiveButton("Xóa") { dialog, _ ->
                 deleteUserFromDatabase(user.uid)
                 dialog.dismiss()
