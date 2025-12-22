@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="?attr/selectableItemBackground">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingHorizontal="20dp"
+        android:paddingVertical="16dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Rank badge -->
+        <TextView
+            android:id="@+id/rankTxt"
+            android:layout_width="32dp"
+            android:layout_height="32dp"
+            android:background="@drawable/circle_bg_light"
+            android:backgroundTint="#F5F5F5"
+            android:gravity="center"
+            android:text="1"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/grey_dark"/>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="16dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/labelTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tiêu đề"
+                android:textColor="@color/darkBrown"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/subLabelTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Phụ đề"
+                android:textSize="13sp"
+                android:textColor="@color/grey"
+                android:layout_marginTop="2dp"
+                android:visibility="gone"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/valueTxt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="$0"
+            android:textColor="@color/darkBrown"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- Đường kẻ ngăn cách mờ -->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#F0F0F0"
+        android:layout_marginHorizontal="20dp"/>
+
+</LinearLayout>

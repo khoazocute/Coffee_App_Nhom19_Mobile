@@ -91,9 +91,9 @@ class AdminDashboardActivity : AppCompatActivity() {
         }
 
         binding.manageStatsCard.setOnClickListener {
-            Toast.makeText(this, "Chức năng Báo cáo & Thống kê sắp ra mắt!", Toast.LENGTH_SHORT).show()
-            // val intent = Intent(this, ManageStatsActivity::class.java)
-            // startActivity(intent)
+            //Toast.makeText(this, "Chức năng Báo cáo & Thống kê sắp ra mắt!", Toast.LENGTH_SHORT).show()
+            val intent = Intent(this, StatisticsActivity::class.java)
+            startActivity(intent)
         }
 
         // Xử lý nút đăng xuất
