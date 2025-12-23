@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:background="#F5F5F5">
+
+    <!-- HEADER -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:layout_marginBottom="24dp">
+
+        <!-- Nút Back (Gồm Icon + Chữ) -->
+        <LinearLayout
+            android:id="@+id/backBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:padding="8dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:background="?attr/selectableItemBackground">
+
+            <ImageView
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/back"
+                android:contentDescription="Back button"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:text="Back"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <!-- Tiêu đề (Căn giữa phần còn lại) -->
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:text="Thêm Khuyến Mãi"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_marginEnd="46dp"
+            android:textColor="#000000"/>
+        <!-- marginEnd để cân bằng với nút back bên trái cho tiêu đề ra giữa -->
+    </LinearLayout>
+
+    <!-- NHẬP MÃ CODE -->
+    <EditText
+        android:id="@+id/codeEdt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="Mã Code (VD: SALE50)"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp"
+        android:textAllCaps="true"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- NHẬP % GIẢM -->
+    <EditText
+        android:id="@+id/percentEdt"
+        android:layout_width="match_parent"
+        android:layout_height="55dp"
+        android:hint="% Giảm giá (VD: 20)"
+        android:inputType="number"
+        android:background="#FFFFFF"
+        android:paddingHorizontal="16dp"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- NHẬP MÔ TẢ -->
+    <EditText
+        android:id="@+id/descEdt"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:hint="Mô tả chương trình"
+        android:background="#FFFFFF"
+        android:padding="16dp"
+        android:gravity="top"
+        android:textColor="#000000"
+        android:layout_marginBottom="16dp"/>
+
+    <!-- CHỌN NGÀY -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginBottom="24dp">
+
+        <!-- Bắt đầu -->
+        <LinearLayout
+            android:id="@+id/startDateBtn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginEnd="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Bắt đầu"
+                android:textColor="#888888"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/startDateTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn ngày"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+        </LinearLayout>
+
+        <!-- Kết thúc -->
+        <LinearLayout
+            android:id="@+id/endDateBtn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#FFFFFF"
+            android:padding="12dp"
+            android:clickable="true"
+            android:focusable="true"
+            android:layout_marginStart="8dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kết thúc"
+                android:textColor="#888888"
+                android:textSize="12sp"/>
+
+            <TextView
+                android:id="@+id/endDateTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Chọn ngày"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:textSize="16sp"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/saveBtn"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Lưu Khuyến Mãi"
+        android:textStyle="bold"
+        android:textColor="#FFFFFF"
+        android:backgroundTint="#FF9800"/>
+
+</LinearLayout>
