@@ -21,12 +21,12 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle_bg_light">
+
             <ImageView
-                android:layout_width="24dp"
-                android:layout_height="24dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
                 android:layout_gravity="center"
-                android:src="@drawable/logo5"
-                app:tint="@color/orange"/>
+                android:src="@drawable/coupon" />
         </FrameLayout>
 
         <!-- Thông tin -->
@@ -90,7 +90,6 @@
             android:layout_height="36dp"
             android:padding="6dp"
             android:src="@drawable/checklist"
-            app:tint="@color/darkBrown"
             android:visibility="gone"/>
 
     </LinearLayout>

@@ -52,9 +52,16 @@ class MainActivity : AppCompatActivity() {
         initCartMenu()
         initProfileButton()
         initHistoryButton()
+        initPromotionsButton()
         //Khởi chạy chức năng tìm kiếm
         preloadAllProductsForSearch()
         setupSearchListener()
+    }
+
+    private fun initPromotionsButton() {
+        binding.explorerBtn.setOnClickListener {
+            startActivity(Intent(this, UserPromotionsActivity::class.java))
+        }
     }
 
     private fun initHistoryButton() {

@@ -201,6 +201,7 @@
                 android:layout_gravity="center_vertical">
 
                 <LinearLayout
+                    android:id="@+id/explorerBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="0.2"
@@ -219,8 +220,8 @@
                         android:text="Explorer"
                         android:textAlignment="center"
                         android:textColor="@color/white"
-                        android:textStyle="bold"
-                        android:textSize="10sp" />
+                        android:textSize="10sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout

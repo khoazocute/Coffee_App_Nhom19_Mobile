@@ -84,7 +84,18 @@ class CartActivity : AppCompatActivity() {
                 if (snapshot.exists()) {
                     val promotion = snapshot.getValue(PromotionModel::class.java)
                     if (promotion != null) {
-                        // Lưu % giảm giá
+                        // === THÊM CHECK NGÀY ===
+                        val now = System.currentTimeMillis()
+                        if (now < promotion.startDate) {
+                            Toast.makeText(this@CartActivity, "Mã chưa đến ngày hiệu lực", Toast.LENGTH_SHORT).show()
+                            return
+                        }
+                        if (now > promotion.endDate) {
+                            Toast.makeText(this@CartActivity, "Mã đã hết hạn", Toast.LENGTH_SHORT).show()
+                            return
+                        }
+                        // ========================
+
                         managmentCart.saveDiscount(promotion.discountPercent)
                         Toast.makeText(this@CartActivity, "Áp dụng: Giảm ${promotion.discountPercent}%", Toast.LENGTH_SHORT).show()
                         calculateCart()
@@ -95,11 +106,10 @@ class CartActivity : AppCompatActivity() {
                     calculateCart()
                 }
             }
-            override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@CartActivity, "Lỗi kiểm tra mã", Toast.LENGTH_SHORT).show()
-            }
+            override fun onCancelled(error: DatabaseError) {}
         })
     }
+
 
     private fun initCartList() {
         binding.apply {
