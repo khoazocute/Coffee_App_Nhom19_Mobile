@@ -96,6 +96,11 @@ class AdminDashboardActivity : AppCompatActivity() {
             startActivity(intent)
         }
 
+        binding.managePromotionsCard.setOnClickListener {
+            // Chuyển sang Quản lý Khuyến mãi
+            val intent = Intent(this, ManagePromotionsActivity::class.java)
+            startActivity(intent)}
+
         // Xử lý nút đăng xuất
         binding.logoutBtn.setOnClickListener {
             mAuth.signOut() // Xóa phiên đăng nhập
