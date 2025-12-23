@@ -51,6 +51,8 @@
             android:exported="false" />
         <activity android:name=".Activity.OrderDetailAdminActivity"
             android:exported="false" />
+        <activity android:name=".Activity.ManagePromotionsActivity" android:exported="false" />
+        <activity android:name=".Activity.AddPromotionActivity" android:exported="false" />
         <activity
             android:name=".Activity.EditProfileActivity"
             android:exported="false" />

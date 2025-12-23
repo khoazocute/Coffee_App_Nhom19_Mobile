@@ -10,27 +10,28 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="24dp"
         android:gravity="center_vertical"
-        android:layout_marginBottom="24dp">
+        android:orientation="horizontal">
 
         <!-- Nút Back (Gồm Icon + Chữ) -->
         <LinearLayout
             android:id="@+id/backBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center_vertical"
-            android:padding="8dp"
+            android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackground">
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:padding="8dp">
 
             <ImageView
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:src="@drawable/back"
-                android:contentDescription="Back button"/>
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:contentDescription="Back button"
+                android:src="@drawable/back" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -39,20 +40,20 @@
                 android:text="Back"
                 android:textColor="#000000"
                 android:textSize="16sp"
-                android:textStyle="bold"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <!-- Tiêu đề (Căn giữa phần còn lại) -->
         <TextView
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="Thêm Khuyến Mãi"
-            android:textSize="20sp"
-            android:textStyle="bold"
-            android:gravity="center"
             android:layout_marginEnd="46dp"
-            android:textColor="#000000"/>
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Thêm Khuyến Mãi"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold" />
         <!-- marginEnd để cân bằng với nút back bên trái cho tiêu đề ra giữa -->
     </LinearLayout>
 

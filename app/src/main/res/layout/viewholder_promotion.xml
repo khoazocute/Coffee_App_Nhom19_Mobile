@@ -21,16 +21,15 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/circle_bg_light">
-
             <ImageView
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_gravity="center"
                 android:src="@drawable/logo5"
-                app:tint="@color/orange" />
+                app:tint="@color/orange"/>
         </FrameLayout>
 
-        <!-- Thông tin mã -->
+        <!-- Thông tin -->
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -65,31 +64,34 @@
                 android:textColor="@color/grey"/>
         </LinearLayout>
 
-        <!-- Nút Sửa/Xóa (Hiện cho Admin) -->
-        <LinearLayout
-            android:id="@+id/adminActionsLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:visibility="gone">
+        <!-- Nút cho ADMIN (Sửa/Xóa) - Mặc định GONE -->
+        <ImageView
+            android:id="@+id/btnEdit"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_edit"
+            app:tint="@color/darkBrown"
+            android:visibility="gone"/>
 
-            <ImageView
-                android:id="@+id/btnEdit"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_edit"
-                app:tint="@color/darkBrown"/>
+        <ImageView
+            android:id="@+id/btnDelete"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="8dp"
+            android:src="@drawable/ic_delete"
+            app:tint="@color/orange"
+            android:visibility="gone"/>
 
-            <ImageView
-                android:id="@+id/btnDelete"
-                android:layout_width="36dp"
-                android:layout_height="36dp"
-                android:padding="8dp"
-                android:src="@drawable/ic_delete"
-                app:tint="@color/orange"/>
-        </LinearLayout>
-
+        <!-- Nút cho USER (Copy) - Mặc định GONE -->
+        <ImageView
+            android:id="@+id/btnCopy"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:padding="6dp"
+            android:src="@drawable/checklist"
+            app:tint="@color/darkBrown"
+            android:visibility="gone"/>
 
     </LinearLayout>
 </com.google.android.material.card.MaterialCardView>
