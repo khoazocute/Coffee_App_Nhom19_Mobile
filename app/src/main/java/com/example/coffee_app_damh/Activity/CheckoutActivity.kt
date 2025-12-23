@@ -1,6 +1,3 @@
-// File: /app/src/main/java/com/example/coffee_app_damh/Activity/CheckoutActivity.kt
-// HÃY THAY THẾ TOÀN BỘ FILE CŨ BẰNG NỘI DUNG NÀY
-
 package com.example.coffee_app_damh.Activity
 
 import android.content.Intent
@@ -26,11 +23,13 @@ class CheckoutActivity : AppCompatActivity() {
     private lateinit var database: FirebaseDatabase
     private lateinit var cartItems: ArrayList<ItemsModel>
 
-    // Bỏ giá trị khởi tạo ở đây để tránh nhầm lẫn
     private var subTotal: Double = 0.0
     private var tax: Double = 0.0
     private var delivery: Double = 0.0
     private var total: Double = 0.0
+
+    // === BIẾN MỚI ===
+    private var discount: Double = 0.0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,19 +41,14 @@ class CheckoutActivity : AppCompatActivity() {
         database = FirebaseDatabase.getInstance()
         cartItems = managmentCart.getListCart()
 
-        // === THỨ TỰ LOGIC ĐÚNG ===
-
-        // 1. Lấy dữ liệu trước tiên
         getBundle()
 
-        // 2. Kiểm tra dữ liệu ngay sau khi lấy
         if (total == 0.0 || cartItems.isEmpty()) {
             Toast.makeText(this, "Giỏ hàng trống", Toast.LENGTH_SHORT).show()
-            finish() // Tự đóng lại nếu không có gì để thanh toán
-            return   // Dừng hàm onCreate() tại đây
+            finish()
+            return
         }
 
-        // 3. Nếu dữ liệu hợp lệ, mới tiếp tục cài đặt các thành phần khác
         initUI()
         initOrderSummary()
         initListeners()
@@ -65,6 +59,8 @@ class CheckoutActivity : AppCompatActivity() {
         tax = intent.getDoubleExtra("tax", 0.0)
         delivery = intent.getDoubleExtra("delivery", 0.0)
         total = intent.getDoubleExtra("total", 0.0)
+        // === NHẬN DISCOUNT ===
+        discount = intent.getDoubleExtra("discount", 0.0)
     }
 
     private fun initUI() {
@@ -73,6 +69,9 @@ class CheckoutActivity : AppCompatActivity() {
         binding.taxTxt.text = "$${formatter.format(tax)}"
         binding.deliveryTxt.text = "$${formatter.format(delivery)}"
         binding.totalTxt.text = "$${formatter.format(total)}"
+
+        // Bạn có thể hiển thị discount ở đây nếu layout có chỗ
+        // Ví dụ: binding.discountTxt.text = ...
     }
 
     private fun initOrderSummary() {
@@ -92,11 +91,11 @@ class CheckoutActivity : AppCompatActivity() {
 
     private fun validateInput(): Boolean {
         if (binding.nameEdt.text.isNullOrEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập họ tên người nhận", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Vui lòng nhập họ tên", Toast.LENGTH_SHORT).show()
             return false
         }
         if (binding.addressEdt.text.isNullOrEmpty()) {
-            Toast.makeText(this, "Vui lòng nhập địa chỉ giao hàng", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Vui lòng nhập địa chỉ", Toast.LENGTH_SHORT).show()
             return false
         }
         if (binding.phoneEdt.text.isNullOrEmpty()) {
@@ -109,12 +108,12 @@ class CheckoutActivity : AppCompatActivity() {
     private fun placeOrder() {
         val currentUser = auth.currentUser
         if (currentUser == null) {
-            Toast.makeText(this, "Bạn cần đăng nhập để đặt hàng", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Bạn cần đăng nhập", Toast.LENGTH_SHORT).show()
             return
         }
 
         binding.orderBtn.isEnabled = false
-        binding.orderBtn.text = "Processing..."
+        binding.orderBtn.text = "Đang xử lý..."
 
         val orderItems = ArrayList<OrderItemModel>()
         cartItems.forEach { cartItem ->
@@ -144,31 +143,25 @@ class CheckoutActivity : AppCompatActivity() {
             delivery = delivery,
             total = total,
             orderDate = System.currentTimeMillis(),
-            status = "Đang xử lý"
+            status = "Đang xử lý",
+            // === LƯU DISCOUNT ===
+            discount = discount
         )
 
         orderRef.child(orderId).setValue(order).addOnSuccessListener {
-            managmentCart.clearCart()
-            // 2. Tạo một "tấm vé" (Intent) để đi đến màn hình popup
-            val intent = Intent(this, OrderSuccessActivity::class.java)
+            managmentCart.clearCart() // Hàm này sẽ reset luôn discount về 0
 
-            // 3. Đóng gói tất cả thông tin vào "tấm vé"
+            val intent = Intent(this, OrderSuccessActivity::class.java)
             intent.putExtra("orderId", order.orderId)
             intent.putExtra("orderDate", order.orderDate)
             intent.putExtra("name", order.name)
             intent.putExtra("address", order.address)
             intent.putExtra("total", order.total)
+            intent.putExtra("items", cartItems)
 
-            // === GỬI THÊM DANH SÁCH SẢN PHẨM VÀO ĐÂY ===
-            intent.putExtra("items", cartItems) // cartItems là ArrayList<ItemsModel> đã có sẵn
-            // ============================================
-
-            // 4. Xóa hết các màn hình cũ (Cart, Checkout) để người dùng không thể "Back" lại
             intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-
-            // 5. Bắt đầu hành trình, chuyển đến màn hình popup
             startActivity(intent)
-            finish() // Đóng màn hình Checkout lại
+            finish()
 
         }.addOnFailureListener {
             Toast.makeText(this, "Đặt hàng thất bại: ${it.message}", Toast.LENGTH_SHORT).show()

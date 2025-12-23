@@ -68,5 +68,16 @@ class ManagmentCart(val context: Context) {
         val list: ArrayList<ItemsModel?> = getListCart() as ArrayList<ItemsModel?>
         list.clear()
         tinyDB.putListObject("CartList", list)
+        // === RESET MÃ GIẢM GIÁ KHI XÓA GIỎ ===
+        saveDiscount(0)
+    }
+
+    // === CÁC HÀM MỚI CHO KHUYẾN MÃI ===
+    fun saveDiscount(percent: Int) {
+        tinyDB.putInt("DiscountPercent", percent)
+    }
+
+    fun getDiscount(): Int {
+        return tinyDB.getInt("DiscountPercent")
     }
 }

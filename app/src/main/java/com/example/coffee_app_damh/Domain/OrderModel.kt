@@ -26,6 +26,6 @@ data class OrderModel(
     var subTotal: Double = 0.0,
     var delivery: Double = 0.0,
     var tax: Double = 0.0,
-    var total: Double = 0.0
-
+    var total: Double = 0.0,
+    var discount: Double = 0.0
 ) : Parcelable
